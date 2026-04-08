@@ -508,6 +508,50 @@ header{
 .btn-logout-admin:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .settings-divider{border:none;border-top:1px solid var(--border);margin:24px 0}
 
+/* ═══ ENTREGA ════════════════════════════════════════════════ */
+.delivery-section{
+  background:linear-gradient(135deg,rgba(201,168,76,.08) 0%,rgba(201,168,76,.03) 100%);
+  border-top:1px solid rgba(201,168,76,.2);
+  border-bottom:1px solid rgba(201,168,76,.2);
+  padding:36px 24px;text-align:center;
+}
+.delivery-section-inner{max-width:900px;margin:0 auto}
+.delivery-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);font-size:.68rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:5px 18px;border-radius:20px;
+  margin-bottom:16px;
+}
+.delivery-section h3{
+  font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:8px;
+}
+.delivery-section h3 span{color:var(--gold)}
+.delivery-section p{color:var(--muted);font-size:.85rem;margin-bottom:24px;line-height:1.7}
+.delivery-pills{
+  display:flex;flex-wrap:wrap;gap:7px;justify-content:center;
+  max-height:180px;overflow-y:auto;padding:4px;
+}
+.delivery-pills::-webkit-scrollbar{width:4px}
+.delivery-pills::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px}
+.bairro-pill{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;padding:5px 14px;font-size:.72rem;color:var(--muted);
+  white-space:nowrap;transition:all .2s;
+}
+.bairro-pill:hover{border-color:var(--gold);color:var(--gold)}
+.delivery-free-banner{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:rgba(26,122,74,.1);border:1px solid rgba(26,122,74,.25);
+  border-radius:12px;padding:12px 20px;margin-top:20px;
+  font-size:.85rem;font-weight:600;color:#5ec98a;
+}
+.delivery-badge-modal{
+  background:rgba(26,122,74,.1);border:1px solid rgba(26,122,74,.25);
+  border-radius:10px;padding:10px 16px;
+  font-size:.82rem;color:#5ec98a;text-align:center;margin-bottom:18px;
+}
+
 /* ═══ FOOTER ═════════════════════════════════════════════════ */
 footer{text-align:center;padding:50px 24px;border-top:1px solid var(--border)}
 .footer-logo{
@@ -579,6 +623,19 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
   </div>
 </section>
 
+<!-- ═══════════════════════════ ENTREGA ══════════════════════════════════ -->
+<section class="delivery-section">
+  <div class="delivery-section-inner">
+    <div class="delivery-tag">🚚 Entrega</div>
+    <h3>Entregamos em toda <span>Sete Lagoas</span></h3>
+    <p>Seu pedido chega fresquinho até você. Confira os bairros atendidos abaixo.</p>
+    <div class="delivery-pills" id="bairroPills"></div>
+    <div class="delivery-free-banner">
+      ✅ Taxa de entrega <strong style="margin:0 4px">GRÁTIS</strong> para todos os bairros de Sete Lagoas
+    </div>
+  </div>
+</section>
+
 <!-- ═════════════════════════════ CATEGORIES ════════════════════════════════ -->
 <div class="categories-wrap" id="catsWrap"></div>
 
@@ -614,24 +671,45 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
   </div>
 </div>
 
-<!-- ═══════════════════════════ PHONE MODAL ════════════════════════════════ -->
+<!-- ═══════════════════════════ ORDER MODAL ════════════════════════════════ -->
 <div class="modal-bg" id="orderModal">
-  <div class="modal">
+  <div class="modal wide">
     <div class="modal-icon">📲</div>
     <h3>Finalizar Pedido</h3>
-    <p class="modal-sub">Preencha seus dados e enviaremos o pedido direto para o nosso WhatsApp!</p>
-    <div class="field">
-      <label>Seu nome</label>
-      <input type="text" id="clientName" placeholder="Nome completo" maxlength="60"/>
+    <p class="modal-sub">Preencha seus dados para enviarmos o pedido via WhatsApp.</p>
+
+    <div class="delivery-badge-modal">
+      🚚 Entrega <strong>GRÁTIS</strong> em toda Sete Lagoas
     </div>
-    <div class="field">
-      <label>WhatsApp para contato</label>
-      <input type="tel" id="clientPhone" placeholder="(11) 99999-9999" maxlength="20"/>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Seu nome</label>
+        <input type="text" id="clientName" placeholder="Nome completo" maxlength="60"/>
+      </div>
+      <div class="field">
+        <label>WhatsApp para contato</label>
+        <input type="tel" id="clientPhone" placeholder="(31) 99999-9999" maxlength="20"/>
+      </div>
     </div>
+
+    <div class="field">
+      <label>Bairro de entrega</label>
+      <select id="clientBairro">
+        <option value="">— Selecione seu bairro —</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Endereço completo</label>
+      <input type="text" id="clientAddress" placeholder="Rua, número, complemento..."/>
+    </div>
+
     <div class="field">
       <label>Observações (opcional)</label>
-      <textarea id="clientObs" placeholder="Ex: sem gordura, corte especial, entrega no período da tarde..."></textarea>
+      <textarea id="clientObs" placeholder="Ex: sem gordura, corte especial, entregar à tarde..."></textarea>
     </div>
+
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeOrderModal()">Cancelar</button>
       <button class="btn-confirm" onclick="sendOrder()">Enviar Pedido 🚀</button>
@@ -891,6 +969,55 @@ const DEFAULT_PRODUCTS = [
   {id:19,cat:'especial',emoji:'🥩',name:'Hambúrguer Artesanal',desc:'Blend de carnes nobres. Cada unidade com 180g de puro sabor.',price:8.90,unit:'un',badge:'Novo',img:''},
 ];
 
+const BAIRROS = [
+  'Aeroporto Industrial','Alex Paiva','Alto Coqueiral','Alvorada','Anchieta',
+  'Areias','Bandeirante','Barreiro','Barreiro de Baixo','Barreiro de Cima',
+  'Bela Vista I','Bela Vista II','Bela Vista III','Belo Vale','Belo Vale II','Belo Vale III',
+  'Blue Garden Safira','Boa Esperança','Boa Vista','Bom Jardim','Bom Jesus',
+  'Bouganvile I','Bouganvile II','Bouganvile III','Brasília','Braz Filizola',
+  'Brejão','Brejinho','Campo de Aviação','Canaã','Canadá','Canadá II',
+  'Catarina','CDI','Cedro e Cachoeira','Centro','Chácara do Paiva',
+  'Chácara Esplanada do Moinho','Cidade de Deus','Cidade Nova','Colorado',
+  'Condomínio Lago Azul','Condomínio Lagoas do Moinho',
+  'Conj. Hab. Bernardo Valadares Vasconcelos','Dante Lanza',
+  'Distrito Industrial','Distrito Industrial Norte','Dona Dora',
+  'Eldorado','Emília','Esmeraldas','Esmeraldas II','Esperança',
+  'Estância Jardim das Américas','Fátima','Fazenda Velha',
+  'Flora Bela Parque Residencial','Flórida','Funcionários','Glória',
+  'Golden Ville','Henrique Nery','Honorina Pontes','Horizonte',
+  'Industrial','Indústrias','Indústrias II','Interlagos I','Interlagos II',
+  'Iporanga','Iporanga II','Iraque','Itapoã','Itapoã II',
+  'Jardim Arizona','Jardim Cambuí','Jardim da Serra','Jardim dos Pequis',
+  'Jardim Europa','Jardim Primavera I','Jardim Primavera II','Jardim Universitário',
+  'JK','Kwait','Lagoa dos Pássaros','Lagoa Grande II','Lagos do Moinho',
+  'Lontra','Lontrinha','Luxemburgo','Mangabeiras','Manoa','Mata Grande',
+  'Monte Carlo','Monte Carmelo','Montreal','Montreal II','Morro do Claro',
+  'New York','Nossa Senhora das Graças','Nossa Senhora de Lourdes',
+  'Nossa Senhora do Carmo','Nossa Senhora do Carmo II','Nova Cidade',
+  'Nova Serrana','Novo Horizonte','Olinto Alvin','Ondina Vasconcelos de Oliveira',
+  'Orozimbo Macedo','Ouro Branco','Paço de São Carlos','Padre Teodoro',
+  'Padre Teodoro II','Panorama','Papavento','Paredão','Parque das Nogueiras',
+  'Pedras','Piedade','Planalto','Portal da Serra','Primavera','Progresso',
+  'Progresso II','Quinducha','Quintas da Varginha','Quintas do Lago I',
+  'Quintas do Lago II','Recanto da Gineta','Recanto da Serra','Recanto do Cedro',
+  'Recanto do Itororó','Recanto do Yassu','Recanto dos Sonhos','Recanto São José',
+  'Residencial Antares','Residencial Belvedere','Residencial Califórnia',
+  'Residencial Campestre','Residencial Da Vinci','Residencial Dona Sílvia I',
+  'Residencial Ermitage','Residencial Floratta da Serra','Residencial Goiabeiras',
+  'Residencial Paraíso','Residencial Pôr do Sol','Residencial Portal do Moinho',
+  'Residencial Tiradentes','Residencial Vale do Sol','Residencial Veredas',
+  'Riacho do Campo','Santa Eliza','Santa Felicidade','Santa Helena',
+  'Santa Luzia','Santa Marcelina','Santa Maria','Santa Rita',
+  'Santa Rita de Cássia','Santa Rosa','Santo Antônio','São Cristóvão',
+  'São Cristóvão II','São Dimas','São Francisco de Assis','São Geraldo',
+  'São João','São João II','São Jorge','São José','São Luiz','São Pedro',
+  'São Sebastião','São Vicente','Serra Verde','Silva Xavier','Tamanduá',
+  'Titamar','Universitário','Vale das Palmeiras','Vale das Palmeiras II',
+  'Vale do Aritana','Vapabuçu','Várzea','Várzea da Lagoa II',
+  'Verde Vale','Verde Vale II','Vila Brasil','Vila Ipê','Vila Santa Helena',
+  'Village da Serra','Vitória da União','Wenceslau Brás'
+];
+
 const CATS = [
   {key:'todos',label:'Todos',emoji:''},
   {key:'bovino',label:'Bovino',emoji:'🐄'},
@@ -995,7 +1122,7 @@ function switchTab(tab, el){
 //  STORE PHONE (configurável)
 // ══════════════════════════════════════════════════════════════════
 function loadStorePhone(){
-  return localStorage.getItem('cn_phone')||'5511999999999';
+  return localStorage.getItem('cn_phone')||'5531999900953';
 }
 function saveStorePhone(){
   const v=document.getElementById('storePhone').value.replace(/\D/g,'');
@@ -1235,16 +1362,22 @@ function closeCart(){
 // ══════════════════════════════════════════════════════════════════
 //  ORDER MODAL
 // ══════════════════════════════════════════════════════════════════
-function openOrderModal(){ document.getElementById('orderModal').classList.add('open') }
+function openOrderModal(){
+  document.getElementById('orderModal').classList.add('open');
+}
 function closeOrderModal(){ document.getElementById('orderModal').classList.remove('open') }
 
 function sendOrder(){
-  const name  = document.getElementById('clientName').value.trim();
-  const phone = document.getElementById('clientPhone').value.trim();
-  const obs   = document.getElementById('clientObs').value.trim();
+  const name    = document.getElementById('clientName').value.trim();
+  const phone   = document.getElementById('clientPhone').value.trim();
+  const bairro  = document.getElementById('clientBairro').value;
+  const address = document.getElementById('clientAddress').value.trim();
+  const obs     = document.getElementById('clientObs').value.trim();
 
-  if(!name){ showToast('Informe seu nome.','error'); return; }
-  if(!phone){ showToast('Informe seu WhatsApp.','error'); return; }
+  if(!name)   { showToast('Informe seu nome.','error'); return; }
+  if(!phone)  { showToast('Informe seu WhatsApp.','error'); return; }
+  if(!bairro) { showToast('Selecione seu bairro de entrega.','error'); return; }
+  if(!address){ showToast('Informe o endereço de entrega.','error'); return; }
 
   const entries = Object.entries(cart).filter(([,q])=>q>0);
   if(!entries.length) return;
@@ -1254,6 +1387,10 @@ function sendOrder(){
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   msg += `👤 *Cliente:* ${name}\n`;
   msg += `📱 *WhatsApp:* ${phone}\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `📍 *Bairro:* ${bairro}\n`;
+  msg += `🏠 *Endereço:* ${address}\n`;
+  msg += `🚚 *Taxa de entrega:* GRÁTIS\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   msg += `*📋 ITENS DO PEDIDO:*\n\n`;
 
@@ -1268,9 +1405,10 @@ function sendOrder(){
 
   msg+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   msg+=`💰 *TOTAL: R$ ${total.toFixed(2).replace('.',',')}*\n`;
-  msg+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  if(obs) msg+=`\n📝 *Observações:* ${obs}\n`;
-  msg+=`\n_Pedido feito pelo site do Corte Nobre_ ⭐⭐⭐⭐⭐`;
+  msg+=`🚚 *Entrega:* GRÁTIS\n`;
+  msg+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
+  if(obs) msg+=`\n\n📝 *Obs:* ${obs}`;
+  msg+=`\n\n_Pedido feito pelo site do Corte Nobre_ ⭐⭐⭐⭐⭐`;
 
   window.open(`https://wa.me/${loadStorePhone()}?text=${encodeURIComponent(msg)}`,'_blank');
   closeOrderModal();
@@ -1551,6 +1689,19 @@ document.querySelectorAll('.modal-bg').forEach(bg=>{
 // ══════════════════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════════════════
+(function initBairros(){
+  // pills na seção de entrega
+  const pillsEl = document.getElementById('bairroPills');
+  if(pillsEl) pillsEl.innerHTML = BAIRROS.map(b=>`<div class="bairro-pill">${b}</div>`).join('');
+
+  // select no modal de pedido
+  const sel = document.getElementById('clientBairro');
+  if(sel) BAIRROS.forEach(b=>{
+    const o=document.createElement('option');
+    o.value=b; o.textContent=b; sel.appendChild(o);
+  });
+})();
+
 updateAdminBtn();
 renderCats();
 renderProducts();
