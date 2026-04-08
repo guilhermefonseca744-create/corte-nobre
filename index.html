@@ -508,6 +508,46 @@ header{
 .btn-logout-admin:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .settings-divider{border:none;border-top:1px solid var(--border);margin:24px 0}
 
+/* ═══ COMO FUNCIONA ══════════════════════════════════════════ */
+.how-section{padding:60px 24px;text-align:center;border-bottom:1px solid var(--border)}
+.how-section h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:6px}
+.how-section h2 span{color:var(--gold)}
+.how-section>.sub{color:var(--muted);font-size:.85rem;margin-bottom:40px}
+.how-steps{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:900px;margin:0 auto}
+.how-step{
+  flex:1;min-width:200px;max-width:260px;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:28px 20px;text-align:center;position:relative;
+  transition:border-color .25s,transform .25s;
+}
+.how-step:hover{border-color:rgba(201,168,76,.4);transform:translateY(-3px)}
+.how-step-num{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);font-size:.8rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;
+}
+.how-step-icon{font-size:2rem;margin-bottom:12px}
+.how-step h4{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:6px}
+.how-step p{font-size:.76rem;color:var(--muted);line-height:1.6}
+.how-connector{
+  display:flex;align-items:center;color:var(--border2);font-size:1.2rem;
+  padding-top:20px;
+}
+@media(max-width:700px){.how-connector{display:none}}
+
+/* ═══ CHECKOUT MODAL ════════════════════════════════════════ */
+.checkout-section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);margin:20px 0 14px;
+}
+.checkout-section-title::before,.checkout-section-title::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+.checkout-section-title::before{max-width:24px}
+
 /* ═══ ENTREGA ════════════════════════════════════════════════ */
 .delivery-section{
   background:linear-gradient(135deg,rgba(201,168,76,.08) 0%,rgba(201,168,76,.03) 100%);
@@ -623,6 +663,34 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
   </div>
 </section>
 
+<!-- ═══════════════════════════ COMO FUNCIONA ════════════════════════════ -->
+<section class="how-section">
+  <h2>Como <span>Fazer seu Pedido</span></h2>
+  <p class="sub">Simples, rápido e direto no seu WhatsApp</p>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-step-num">1</div>
+      <div class="how-step-icon">🥩</div>
+      <h4>Escolha os Cortes</h4>
+      <p>Navegue pelo cardápio, filtre por categoria e adicione as peças que deseja ao carrinho.</p>
+    </div>
+    <div class="how-connector">›</div>
+    <div class="how-step">
+      <div class="how-step-num">2</div>
+      <div class="how-step-icon">🛒</div>
+      <h4>Monte seu Carrinho</h4>
+      <p>Ajuste as quantidades, revise os itens e o valor total antes de finalizar.</p>
+    </div>
+    <div class="how-connector">›</div>
+    <div class="how-step">
+      <div class="how-step-num">3</div>
+      <div class="how-step-icon">📱</div>
+      <h4>Receba em Casa</h4>
+      <p>Preencha seu endereço e envie o pedido pelo WhatsApp. Entrega grátis em toda Sete Lagoas!</p>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════════════ ENTREGA ══════════════════════════════════ -->
 <section class="delivery-section">
   <div class="delivery-section-inner">
@@ -674,41 +742,66 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
     <h3>Finalizar Pedido</h3>
     <p class="modal-sub">Preencha seus dados para enviarmos o pedido via WhatsApp.</p>
 
-    <div class="delivery-badge-modal">
-      🚚 Entrega <strong>GRÁTIS</strong> em toda Sete Lagoas
-    </div>
+    <!-- DADOS PESSOAIS -->
+    <div class="checkout-section-title">Dados Pessoais</div>
 
     <div class="field-row">
       <div class="field">
-        <label>Seu nome</label>
-        <input type="text" id="clientName" placeholder="Nome completo" maxlength="60"/>
+        <label>Nome completo *</label>
+        <input type="text" id="clientName" placeholder="Seu nome" maxlength="60"/>
       </div>
       <div class="field">
-        <label>WhatsApp para contato</label>
-        <input type="tel" id="clientPhone" placeholder="(31) 99999-9999" maxlength="20"/>
+        <label>WhatsApp *</label>
+        <input type="tel" id="clientPhone" placeholder="(31) 9 9999-9999" maxlength="20"/>
       </div>
     </div>
 
+    <!-- ENDEREÇO -->
+    <div class="checkout-section-title">Endereço de Entrega</div>
+
+    <div class="delivery-badge-modal">
+      🚚 Entrega <strong>GRÁTIS</strong> em toda Sete Lagoas — MG
+    </div>
+
     <div class="field">
-      <label>Bairro de entrega</label>
+      <label>Bairro *</label>
       <select id="clientBairro">
         <option value="">— Selecione seu bairro —</option>
       </select>
     </div>
 
-    <div class="field">
-      <label>Endereço completo</label>
-      <input type="text" id="clientAddress" placeholder="Rua, número, complemento..."/>
+    <div class="field-row">
+      <div class="field" style="flex:2">
+        <label>Rua / Avenida *</label>
+        <input type="text" id="clientStreet" placeholder="Ex: Rua das Flores"/>
+      </div>
+      <div class="field" style="flex:1">
+        <label>Número *</label>
+        <input type="text" id="clientNumber" placeholder="Ex: 123"/>
+      </div>
     </div>
 
+    <div class="field-row">
+      <div class="field">
+        <label>Complemento</label>
+        <input type="text" id="clientComp" placeholder="Apto, Bloco, Casa, Fundo..."/>
+      </div>
+      <div class="field">
+        <label>Ponto de referência</label>
+        <input type="text" id="clientRef" placeholder="Ex: Próx. ao mercado..."/>
+      </div>
+    </div>
+
+    <!-- OBSERVAÇÕES -->
+    <div class="checkout-section-title">Observações do Pedido</div>
+
     <div class="field">
-      <label>Observações (opcional)</label>
-      <textarea id="clientObs" placeholder="Ex: sem gordura, corte especial, entregar à tarde..."></textarea>
+      <textarea id="clientObs" placeholder="Ex: Cortar a picanha em bifes, entregar após as 18h, campainha não funciona..."></textarea>
     </div>
 
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeOrderModal()">Cancelar</button>
-      <button class="btn-confirm" onclick="sendOrder()">Enviar Pedido 🚀</button>
+      <button class="btn-confirm" onclick="sendOrder()">Enviar pelo WhatsApp 🚀</button>
     </div>
   </div>
 </div>
@@ -1364,29 +1457,37 @@ function openOrderModal(){
 function closeOrderModal(){ document.getElementById('orderModal').classList.remove('open') }
 
 function sendOrder(){
-  const name    = document.getElementById('clientName').value.trim();
-  const phone   = document.getElementById('clientPhone').value.trim();
-  const bairro  = document.getElementById('clientBairro').value;
-  const address = document.getElementById('clientAddress').value.trim();
-  const obs     = document.getElementById('clientObs').value.trim();
+  const name   = document.getElementById('clientName').value.trim();
+  const phone  = document.getElementById('clientPhone').value.trim();
+  const bairro = document.getElementById('clientBairro').value;
+  const street = document.getElementById('clientStreet').value.trim();
+  const number = document.getElementById('clientNumber').value.trim();
+  const comp   = document.getElementById('clientComp').value.trim();
+  const ref    = document.getElementById('clientRef').value.trim();
+  const obs    = document.getElementById('clientObs').value.trim();
 
   if(!name)   { showToast('Informe seu nome.','error'); return; }
   if(!phone)  { showToast('Informe seu WhatsApp.','error'); return; }
-  if(!bairro) { showToast('Selecione seu bairro de entrega.','error'); return; }
-  if(!address){ showToast('Informe o endereço de entrega.','error'); return; }
+  if(!bairro) { showToast('Selecione o bairro de entrega.','error'); return; }
+  if(!street) { showToast('Informe a rua/avenida.','error'); return; }
+  if(!number) { showToast('Informe o número do endereço.','error'); return; }
 
   const entries = Object.entries(cart).filter(([,q])=>q>0);
   if(!entries.length) return;
 
   let total = 0;
+  let enderecoCompleto = `${street}, Nº ${number}`;
+  if(comp) enderecoCompleto += ` — ${comp}`;
+
   let msg = `*🥩 CORTE NOBRE — NOVO PEDIDO*\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   msg += `👤 *Cliente:* ${name}\n`;
   msg += `📱 *WhatsApp:* ${phone}\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   msg += `📍 *Bairro:* ${bairro}\n`;
-  msg += `🏠 *Endereço:* ${address}\n`;
-  msg += `🚚 *Taxa de entrega:* GRÁTIS\n`;
+  msg += `🏠 *Endereço:* ${enderecoCompleto}\n`;
+  if(ref) msg += `🗺 *Referência:* ${ref}\n`;
+  msg += `🚚 *Frete:* GRÁTIS\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   msg += `*📋 ITENS DO PEDIDO:*\n\n`;
 
@@ -1401,10 +1502,10 @@ function sendOrder(){
 
   msg+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   msg+=`💰 *TOTAL: R$ ${total.toFixed(2).replace('.',',')}*\n`;
-  msg+=`🚚 *Entrega:* GRÁTIS\n`;
+  msg+=`🚚 *Taxa de entrega:* GRÁTIS\n`;
   msg+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-  if(obs) msg+=`\n\n📝 *Obs:* ${obs}`;
-  msg+=`\n\n_Pedido feito pelo site do Corte Nobre_ ⭐⭐⭐⭐⭐`;
+  if(obs) msg+=`\n\n📝 *Observações:* ${obs}`;
+  msg+=`\n\n_Pedido feito pelo site Corte Nobre_ ⭐⭐⭐⭐⭐`;
 
   window.open(`https://wa.me/${loadStorePhone()}?text=${encodeURIComponent(msg)}`,'_blank');
   closeOrderModal();
