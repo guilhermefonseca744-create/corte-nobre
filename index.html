@@ -537,6 +537,26 @@ header{
 }
 @media(max-width:700px){.how-connector{display:none}}
 
+/* ═══ PAGAMENTO ═════════════════════════════════════════════ */
+.payment-options{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px}
+@media(max-width:500px){.payment-options{grid-template-columns:repeat(2,1fr)}}
+.payment-opt{cursor:pointer}
+.payment-opt input[type=radio]{display:none}
+.payment-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:12px;
+  padding:14px 8px;text-align:center;display:flex;flex-direction:column;
+  align-items:center;gap:5px;transition:all .2s;user-select:none;
+}
+.payment-card:hover{border-color:rgba(201,168,76,.4)}
+.payment-opt input:checked + .payment-card{
+  border-color:var(--gold);
+  background:rgba(201,168,76,.08);
+  box-shadow:0 0 0 1px var(--gold);
+}
+.payment-icon{font-size:1.6rem}
+.payment-label{font-size:.82rem;font-weight:700;color:var(--white)}
+.payment-desc{font-size:.65rem;color:var(--muted)}
+
 /* ═══ CHECKOUT MODAL ════════════════════════════════════════ */
 .checkout-section-title{
   display:flex;align-items:center;gap:10px;
@@ -789,6 +809,51 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
       <div class="field">
         <label>Ponto de referência</label>
         <input type="text" id="clientRef" placeholder="Ex: Próx. ao mercado..."/>
+      </div>
+    </div>
+
+    <!-- PAGAMENTO -->
+    <div class="checkout-section-title">Forma de Pagamento</div>
+
+    <div class="payment-options">
+      <label class="payment-opt">
+        <input type="radio" name="payment" value="PIX"/>
+        <div class="payment-card">
+          <span class="payment-icon">📲</span>
+          <span class="payment-label">PIX</span>
+          <span class="payment-desc">Aprovação na hora</span>
+        </div>
+      </label>
+      <label class="payment-opt">
+        <input type="radio" name="payment" value="Dinheiro"/>
+        <div class="payment-card">
+          <span class="payment-icon">💵</span>
+          <span class="payment-label">Dinheiro</span>
+          <span class="payment-desc">Pague na entrega</span>
+        </div>
+      </label>
+      <label class="payment-opt">
+        <input type="radio" name="payment" value="Cartão de Débito"/>
+        <div class="payment-card">
+          <span class="payment-icon">💳</span>
+          <span class="payment-label">Débito</span>
+          <span class="payment-desc">Maquininha na entrega</span>
+        </div>
+      </label>
+      <label class="payment-opt">
+        <input type="radio" name="payment" value="Cartão de Crédito"/>
+        <div class="payment-card">
+          <span class="payment-icon">💳</span>
+          <span class="payment-label">Crédito</span>
+          <span class="payment-desc">Maquininha na entrega</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="troco-wrap" id="trocoWrap" style="display:none">
+      <div class="field">
+        <label>Troco para quanto? (opcional)</label>
+        <input type="text" id="clientTroco" placeholder="Ex: R$ 50,00 — deixe vazio se não precisar"/>
       </div>
     </div>
 
@@ -1466,11 +1531,15 @@ function sendOrder(){
   const ref    = document.getElementById('clientRef').value.trim();
   const obs    = document.getElementById('clientObs').value.trim();
 
-  if(!name)   { showToast('Informe seu nome.','error'); return; }
-  if(!phone)  { showToast('Informe seu WhatsApp.','error'); return; }
-  if(!bairro) { showToast('Selecione o bairro de entrega.','error'); return; }
-  if(!street) { showToast('Informe a rua/avenida.','error'); return; }
-  if(!number) { showToast('Informe o número do endereço.','error'); return; }
+  const payment = document.querySelector('input[name="payment"]:checked')?.value || '';
+  const troco   = document.getElementById('clientTroco').value.trim();
+
+  if(!name)    { showToast('Informe seu nome.','error'); return; }
+  if(!phone)   { showToast('Informe seu WhatsApp.','error'); return; }
+  if(!bairro)  { showToast('Selecione o bairro de entrega.','error'); return; }
+  if(!street)  { showToast('Informe a rua/avenida.','error'); return; }
+  if(!number)  { showToast('Informe o número do endereço.','error'); return; }
+  if(!payment) { showToast('Selecione a forma de pagamento.','error'); return; }
 
   const entries = Object.entries(cart).filter(([,q])=>q>0);
   if(!entries.length) return;
@@ -1488,6 +1557,9 @@ function sendOrder(){
   msg += `🏠 *Endereço:* ${enderecoCompleto}\n`;
   if(ref) msg += `🗺 *Referência:* ${ref}\n`;
   msg += `🚚 *Frete:* GRÁTIS\n`;
+  msg += `💳 *Pagamento:* ${payment}`;
+  if(payment==='Dinheiro' && troco) msg += ` (troco para ${troco})`;
+  msg += '\n';
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   msg += `*📋 ITENS DO PEDIDO:*\n\n`;
 
@@ -1793,6 +1865,14 @@ document.querySelectorAll('.modal-bg').forEach(bg=>{
     o.value=b; o.textContent=b; sel.appendChild(o);
   });
 })();
+
+// troco field toggle
+document.querySelectorAll('input[name="payment"]').forEach(r=>{
+  r.addEventListener('change',()=>{
+    document.getElementById('trocoWrap').style.display =
+      r.value==='Dinheiro' ? 'block' : 'none';
+  });
+});
 
 updateAdminBtn();
 renderCats();
