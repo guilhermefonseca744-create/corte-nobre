@@ -626,10 +626,6 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
 <!-- ═══════════════════════════ ENTREGA ══════════════════════════════════ -->
 <section class="delivery-section">
   <div class="delivery-section-inner">
-    <div class="delivery-tag">🚚 Entrega</div>
-    <h3>Entregamos em toda <span>Sete Lagoas</span></h3>
-    <p>Seu pedido chega fresquinho até você. Confira os bairros atendidos abaixo.</p>
-    <div class="delivery-pills" id="bairroPills"></div>
     <div class="delivery-free-banner">
       ✅ Taxa de entrega <strong style="margin:0 4px">GRÁTIS</strong> para todos os bairros de Sete Lagoas
     </div>
@@ -1690,11 +1686,6 @@ document.querySelectorAll('.modal-bg').forEach(bg=>{
 //  INIT
 // ══════════════════════════════════════════════════════════════════
 (function initBairros(){
-  // pills na seção de entrega
-  const pillsEl = document.getElementById('bairroPills');
-  if(pillsEl) pillsEl.innerHTML = BAIRROS.map(b=>`<div class="bairro-pill">${b}</div>`).join('');
-
-  // select no modal de pedido
   const sel = document.getElementById('clientBairro');
   if(sel) BAIRROS.forEach(b=>{
     const o=document.createElement('option');
