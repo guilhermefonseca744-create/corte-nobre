@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Corte Nobre — Açougue Premium</title>
+<title>Corte Nobre — Casa de Carnes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --black:#080808;--dark:#0f0f0f;--card:#161616;--card2:#1c1c1c;
@@ -73,38 +74,74 @@ header{
 /* ═══ HERO ══════════════════════════════════════════════════ */
 .hero{
   position:relative;overflow:hidden;
-  padding:90px 24px 70px;text-align:center;
-  background:radial-gradient(ellipse 100% 80% at 50% -20%,rgba(201,168,76,.1) 0%,transparent 65%);
+  padding:110px 24px 80px;text-align:center;
+  /* fundo base escuro profundo */
+  background:
+    radial-gradient(ellipse 120% 90% at 50% -10%, rgba(201,168,76,.13) 0%, transparent 60%),
+    linear-gradient(180deg, #050505 0%, #0c0c0c 50%, #080808 100%);
+  isolation:isolate;
 }
+
+/* camada 1 — vinheta nas bordas para puxar o olhar ao centro */
 .hero::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    radial-gradient(circle at 20% 50%,rgba(201,168,76,.04) 0%,transparent 40%),
-    radial-gradient(circle at 80% 50%,rgba(201,168,76,.04) 0%,transparent 40%);
+  content:'';position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 40%, rgba(0,0,0,.72) 100%),
+    radial-gradient(circle at 15% 50%, rgba(0,0,0,.5) 0%, transparent 45%),
+    radial-gradient(circle at 85% 50%, rgba(0,0,0,.5) 0%, transparent 45%);
   pointer-events:none;
 }
+
+/* camada 2 — brilho dourado suave atrás do título */
+.hero::after{
+  content:'';position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-55%);
+  width:min(600px,90vw);height:280px;
+  background:radial-gradient(ellipse at center, rgba(201,168,76,.07) 0%, transparent 70%);
+  z-index:0;pointer-events:none;
+  animation:heroGlow 4s ease-in-out infinite alternate;
+}
+@keyframes heroGlow{
+  from{opacity:.6;transform:translate(-50%,-55%) scale(1)}
+  to  {opacity:1; transform:translate(-50%,-52%) scale(1.06)}
+}
+
+/* todo o conteúdo do hero fica acima dos overlays */
+.hero > *{position:relative;z-index:1}
+
 .hero-ornament{
   display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:20px;
 }
 .hero-ornament-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .hero-ornament-line.r{background:linear-gradient(90deg,var(--gold),transparent)}
 .hero-ornament span{color:var(--gold);font-size:.65rem;letter-spacing:5px;text-transform:uppercase}
+
 .hero h1{
   font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4.5rem);
   font-weight:900;line-height:1.05;margin-bottom:20px;
+  text-shadow:0 2px 24px rgba(0,0,0,.9), 0 1px 4px rgba(0,0,0,.8);
 }
 .hero h1 em{font-style:italic;color:var(--gold2)}
 .hero h1 strong{
   display:block;
   background:linear-gradient(135deg,var(--gold),var(--gold3),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 18px rgba(201,168,76,.35));
 }
-.hero p{color:var(--muted);font-size:.95rem;max-width:460px;margin:0 auto 36px;line-height:1.8}
+.hero p{
+  color:#a89880;font-size:.95rem;max-width:460px;margin:0 auto 36px;line-height:1.8;
+  text-shadow:0 1px 8px rgba(0,0,0,.8);
+}
 .hero-badges{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
 .hero-badge{
-  background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);
+  background:rgba(8,8,8,.65);
+  border:1px solid rgba(201,168,76,.3);
+  backdrop-filter:blur(8px);
   border-radius:20px;padding:7px 18px;font-size:.72rem;letter-spacing:1px;color:var(--gold2);
+  transition:background .2s, border-color .2s;
 }
+.hero-badge:hover{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.55)}
 
 /* ═══ CATEGORIES ════════════════════════════════════════════ */
 .categories-wrap{
@@ -135,12 +172,15 @@ header{
 
 .product-card{
   background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;
+  overflow:hidden;
+  transition:transform .32s cubic-bezier(.34,1.45,.64,1), border-color .25s, box-shadow .32s;
   display:flex;flex-direction:column;
+  will-change:transform;
 }
 .product-card:hover{
-  transform:translateY(-5px);border-color:rgba(201,168,76,.5);
-  box-shadow:0 10px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.1);
+  transform:translateY(-6px) scale(1.05);
+  border-color:rgba(201,168,76,.55);
+  box-shadow:0 16px 48px rgba(0,0,0,.5), 0 0 0 1px rgba(201,168,76,.15), 0 0 24px rgba(201,168,76,.07);
 }
 
 /* product image area */
@@ -188,9 +228,65 @@ header{
 }
 .product-desc{color:var(--muted);font-size:.77rem;line-height:1.55;margin-bottom:14px;flex:1}
 .product-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
-.product-price{display:flex;flex-direction:column;line-height:1.2}
+.product-price{
+  display:flex;flex-direction:column;line-height:1.2;
+  background:rgba(201,168,76,.09);border:1px solid rgba(201,168,76,.2);
+  border-radius:10px;padding:7px 12px;
+}
 .product-price-val{font-size:1.2rem;font-weight:700;color:var(--gold)}
 .product-price-unit{font-size:.68rem;color:var(--muted);letter-spacing:.5px}
+
+/* ═══ CARRINHO FLUTUANTE ════════════════════════════════════ */
+.fab-cart{
+  position:fixed;bottom:28px;right:28px;z-index:150;
+  width:62px;height:62px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--black);font-size:1.6rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 28px rgba(201,168,76,.45);
+  cursor:pointer;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  will-change:transform;
+}
+.fab-cart:hover{
+  transform:scale(1.12);
+  box-shadow:0 10px 36px rgba(201,168,76,.55);
+}
+.fab-cart:active{transform:scale(.95)}
+.fab-cart.has-items{
+  animation:fabPulse 2.4s ease-in-out infinite;
+}
+@keyframes fabPulse{
+  0%,100%{box-shadow:0 6px 28px rgba(201,168,76,.45)}
+  50%     {box-shadow:0 6px 28px rgba(201,168,76,.45),0 0 0 10px rgba(201,168,76,.15)}
+}
+.fab-badge{
+  position:absolute;top:-4px;right:-4px;
+  min-width:22px;height:22px;border-radius:11px;
+  background:var(--red);color:#fff;
+  font-size:.68rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 5px;
+  border:2px solid var(--black);
+  opacity:0;transform:scale(0);
+  transition:opacity .2s,transform .25s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+.fab-badge.visible{opacity:1;transform:scale(1)}
+.fab-badge.bump{animation:bump .3s}
+.fab-total{
+  position:absolute;bottom:-28px;left:50%;
+  background:rgba(8,8,8,.9);border:1px solid rgba(201,168,76,.4);
+  border-radius:20px;padding:3px 10px;
+  font-size:.65rem;font-weight:700;color:var(--gold);
+  white-space:nowrap;backdrop-filter:blur(8px);
+  opacity:0;transform:translateX(-50%) translateY(4px);
+  transition:opacity .2s,transform .2s;
+  pointer-events:none;
+}
+.fab-cart:hover .fab-total.visible{
+  opacity:1;transform:translateX(-50%) translateY(0);
+}
 
 .qty-wrap{display:flex;align-items:center;gap:6px;display:none}
 .qty-wrap.show{display:flex}
@@ -200,7 +296,12 @@ header{
   display:flex;align-items:center;justify-content:center;transition:all .18s;
 }
 .qty-btn:hover{background:var(--gold);color:var(--black);border-color:var(--gold)}
-.qty-val{font-size:.88rem;font-weight:700;min-width:20px;text-align:center}
+.qty-val{
+  font-size:.82rem;font-weight:700;min-width:52px;text-align:center;
+  cursor:pointer;border-radius:6px;padding:3px 6px;
+  border:1px solid var(--border2);white-space:nowrap;transition:border-color .2s;
+}
+.qty-val:hover{border-color:var(--gold);color:var(--gold)}
 
 .add-btn{
   background:linear-gradient(135deg,var(--gold),var(--gold2));
@@ -210,6 +311,37 @@ header{
 }
 .add-btn:hover{filter:brightness(1.12);transform:scale(1.04)}
 .add-btn:active{transform:scale(.97)}
+
+/* ═══ QTY PICKER MODAL ══════════════════════════════════════ */
+.qty-presets{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;justify-content:center}
+.qty-preset-btn{
+  background:var(--card);border:1.5px solid var(--border2);color:var(--white);
+  border-radius:20px;padding:7px 16px;font-size:.8rem;font-weight:600;
+  transition:all .2s;cursor:pointer;
+}
+.qty-preset-btn:hover,.qty-preset-btn.active{
+  background:var(--gold);border-color:var(--gold);color:var(--black);
+}
+.qty-picker-ctrl{
+  display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;
+}
+.qty-picker-btn{
+  width:40px;height:40px;border-radius:10px;border:1.5px solid var(--border2);
+  background:var(--card);color:var(--gold);font-size:1.3rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;cursor:pointer;
+}
+.qty-picker-btn:hover{background:var(--gold);color:var(--black);border-color:var(--gold)}
+.qty-picker-input{
+  width:90px;text-align:center;background:var(--card);
+  border:1.5px solid var(--gold);border-radius:10px;padding:10px 8px;
+  color:var(--white);font-size:1.1rem;font-weight:700;
+  font-family:'Raleway',sans-serif;outline:none;
+}
+.qty-picker-unit{font-size:.95rem;font-weight:700;color:var(--muted);min-width:24px}
+.qty-price-preview{
+  text-align:center;margin-bottom:6px;font-size:.85rem;color:var(--muted);
+}
+.qty-price-preview strong{color:var(--gold);font-size:1.05rem}
 
 /* ═══ CART DRAWER ══════════════════════════════════════════ */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -282,10 +414,52 @@ header{
   padding-top:12px;border-top:1px solid var(--border);margin-top:5px;
 }
 .total-row.grand span{color:var(--gold)}
+.drawer-foot{overflow-y:auto;max-height:58vh}
+.drawer-delivery{
+  margin-bottom:14px;
+  background:rgba(201,168,76,.04);
+  border:1px solid rgba(201,168,76,.15);
+  border-radius:12px;padding:14px;
+}
+.drawer-delivery-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;
+}
+.drawer-delivery-title::after{
+  content:'';flex:1;height:1px;background:rgba(201,168,76,.2);
+}
+.drawer-field{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.drawer-field:last-child{margin-bottom:0}
+.drawer-field label{
+  font-size:.68rem;font-weight:700;letter-spacing:.4px;
+  color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:5px;
+}
+.drawer-field label .req{color:var(--gold)}
+.drawer-field label .opt{
+  font-size:.6rem;font-weight:600;letter-spacing:.3px;text-transform:none;
+  color:var(--muted2);background:var(--card);border-radius:6px;padding:1px 6px;
+  border:1px solid var(--border);
+}
+.drawer-field input{
+  background:var(--dark);border:1.5px solid var(--border);
+  border-radius:8px;padding:8px 11px;color:var(--white);
+  font-family:'Raleway',sans-serif;font-size:.83rem;
+  outline:none;transition:border-color .2s,background .2s;width:100%;
+}
+.drawer-field input:focus{border-color:var(--gold);background:rgba(201,168,76,.04)}
+.drawer-field input::placeholder{color:var(--muted2);font-size:.78rem}
+.drawer-field input.invalid{border-color:var(--red)!important;animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.drawer-field-row{display:grid;gap:8px;margin-bottom:8px}
+.drawer-field-row.col-2{grid-template-columns:2fr 1fr}
+.drawer-field-row.col-equal{grid-template-columns:1fr 1fr}
+.drawer-field-row .drawer-field{margin-bottom:0}
+.drawer-foot-actions{display:flex;gap:8px;margin-top:14px}
 .clear-cart{
   background:none;border:1px solid var(--border2);color:var(--muted);
-  border-radius:8px;width:100%;padding:8px;font-size:.75rem;margin-bottom:10px;
-  transition:all .2s;
+  border-radius:8px;padding:8px 12px;font-size:.75rem;
+  transition:all .2s;flex-shrink:0;
 }
 .clear-cart:hover{border-color:#c0392b;color:#c0392b}
 .wa-btn{
@@ -612,6 +786,111 @@ header{
   font-size:.82rem;color:#5ec98a;text-align:center;margin-bottom:18px;
 }
 
+/* ═══ POR QUE ESCOLHER ══════════════════════════════════════ */
+.why-section{
+  padding:72px 24px 0;
+  position:relative;overflow:hidden;
+}
+.why-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.why-section > *{position:relative}
+.why-head{text-align:center;margin-bottom:48px}
+.why-head h2{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;margin-bottom:8px}
+.why-head h2 span{color:var(--gold)}
+.why-head p{color:var(--muted);font-size:.85rem;max-width:480px;margin:0 auto;line-height:1.8}
+
+.why-features{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;max-width:1100px;margin:0 auto 64px;
+}
+.why-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:32px 26px;text-align:center;
+  transition:transform .28s cubic-bezier(.34,1.45,.64,1),border-color .25s,box-shadow .28s;
+  position:relative;overflow:hidden;
+}
+.why-card::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transition:width .35s ease;
+}
+.why-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(201,168,76,.45);
+  box-shadow:0 14px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.1);
+}
+.why-card:hover::after{width:80%}
+.why-icon-wrap{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 20px;
+  background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.06));
+  border:1.5px solid rgba(201,168,76,.25);
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+  transition:background .25s,box-shadow .25s;
+}
+.why-card:hover .why-icon-wrap{
+  background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.1));
+  box-shadow:0 0 24px rgba(201,168,76,.2);
+}
+.why-card h3{
+  font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;
+  margin-bottom:10px;color:var(--white);
+}
+.why-card p{font-size:.8rem;color:var(--muted);line-height:1.75}
+.why-card-tag{
+  display:inline-block;
+  margin-top:16px;padding:3px 12px;border-radius:20px;
+  font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);
+}
+
+/* ═══ DEPOIMENTOS ═══════════════════════════════════════════ */
+.testimonials-wrap{
+  border-top:1px solid var(--border);
+  padding:64px 24px 72px;
+  background:linear-gradient(180deg,var(--dark) 0%,var(--black) 100%);
+}
+.testimonials-head{text-align:center;margin-bottom:44px}
+.testimonials-head h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:6px}
+.testimonials-head h2 span{color:var(--gold)}
+.testimonials-head p{color:var(--muted);font-size:.82rem}
+
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;max-width:1100px;margin:0 auto;
+}
+.tcard{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:26px;display:flex;flex-direction:column;gap:14px;
+  transition:border-color .25s,transform .28s cubic-bezier(.34,1.45,.64,1);
+  position:relative;
+}
+.tcard:hover{border-color:rgba(201,168,76,.35);transform:translateY(-4px)}
+.tcard-quote{
+  font-size:3rem;line-height:.8;color:var(--gold);opacity:.25;
+  font-family:'Playfair Display',serif;font-weight:900;
+  position:absolute;top:16px;right:20px;
+  user-select:none;pointer-events:none;
+}
+.tcard-stars{display:flex;gap:3px}
+.tcard-stars span{color:var(--gold);font-size:.9rem;filter:drop-shadow(0 0 4px rgba(201,168,76,.5))}
+.tcard-text{
+  font-size:.85rem;color:#c8b99a;line-height:1.75;
+  font-style:italic;flex:1;
+}
+.tcard-author{display:flex;align-items:center;gap:11px;margin-top:4px}
+.tcard-avatar{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;font-weight:700;color:var(--black);
+}
+.tcard-info{display:flex;flex-direction:column;gap:2px}
+.tcard-name{font-size:.82rem;font-weight:700;color:var(--white)}
+.tcard-loc{font-size:.7rem;color:var(--muted);letter-spacing:.3px}
+
 /* ═══ FOOTER ═════════════════════════════════════════════════ */
 footer{text-align:center;padding:50px 24px;border-top:1px solid var(--border)}
 .footer-logo{
@@ -622,7 +901,78 @@ footer{text-align:center;padding:50px 24px;border-top:1px solid var(--border)}
 }
 .footer-stars{display:flex;justify-content:center;gap:4px;margin-bottom:16px}
 .footer-stars span{font-size:.9rem;color:var(--gold)}
-footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
+footer p{color:var(--muted);font-size:.78rem;line-height:2}
+.footer-link{
+  color:var(--muted);text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:color .2s, border-color .2s;
+}
+.footer-link:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.footer-link-wa:hover{color:#5ec98a;border-bottom-color:#5ec98a}
+
+
+/* ═══ HORÁRIO DE FUNCIONAMENTO ══════════════════════════════ */
+.hours-section{
+  padding:60px 24px;
+  border-top:1px solid var(--border);
+  text-align:center;
+}
+.hours-section h2{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;margin-bottom:6px}
+.hours-section h2 span{color:var(--gold)}
+.hours-section>.hours-sub{color:var(--muted);font-size:.85rem;margin-bottom:36px}
+
+.hours-status{
+  display:inline-flex;align-items:center;gap:8px;
+  border-radius:20px;padding:6px 20px;font-size:.8rem;font-weight:700;
+  margin-bottom:32px;letter-spacing:.5px;
+}
+.hours-status.open{
+  background:rgba(26,122,74,.12);border:1px solid rgba(26,122,74,.3);color:#5ec98a;
+}
+.hours-status.closed{
+  background:rgba(176,48,32,.1);border:1px solid rgba(176,48,32,.3);color:#e07060;
+}
+.hours-status .status-dot{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+}
+.hours-status.open .status-dot{background:#5ec98a;box-shadow:0 0 6px rgba(94,201,138,.7)}
+.hours-status.closed .status-dot{background:#e07060;box-shadow:0 0 6px rgba(224,112,96,.6)}
+
+.hours-grid{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+  max-width:820px;margin:0 auto;
+}
+.hours-card{
+  flex:1;min-width:160px;max-width:220px;
+  background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:22px 18px;transition:border-color .25s,transform .25s;
+}
+.hours-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-3px)}
+.hours-card.today{
+  border-color:var(--gold);
+  background:rgba(201,168,76,.06);
+  box-shadow:0 0 0 1px rgba(201,168,76,.15), 0 8px 28px rgba(0,0,0,.3);
+}
+.hours-card-days{
+  font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+}
+.hours-card.today .hours-card-days{color:var(--gold)}
+.hours-card-time{
+  font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;
+  color:var(--white);margin-bottom:4px;
+}
+.hours-card.today .hours-card-time{color:var(--gold2)}
+.hours-card-note{font-size:.7rem;color:var(--muted);line-height:1.5}
+.hours-card-closed{
+  font-family:'Playfair Display',serif;font-size:1.1rem;
+  color:var(--muted2);font-style:italic;
+}
+.hours-today-badge{
+  display:inline-block;background:var(--gold);color:var(--black);
+  font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  border-radius:20px;padding:2px 9px;margin-bottom:8px;
+}
 
 /* ═══ RESPONSIVE ═════════════════════════════════════════════ */
 @media(max-width:580px){
@@ -651,7 +1001,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
 <header>
   <div class="logo">
     <div class="logo-title">Corte Nobre</div>
-    <div class="logo-sub">Açougue Premium</div>
+    <div class="logo-sub">Casa de Carnes</div>
   </div>
   <div class="header-center">
     <div class="stars">★★★★★</div>
@@ -724,11 +1074,42 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
 <div class="categories-wrap" id="catsWrap"></div>
 
 <!-- ══════════════════════════════ PRODUCTS ════════════════════════════════ -->
-<div class="sec-title">
-  <h2>Nossos <span>Cortes Nobres</span></h2>
-  <p>Selecione as peças e monte seu pedido</p>
+<div class="sec-title" id="secTitle">
+  <h2 id="secTitleH">Promoções <span>em Destaque</span></h2>
+  <p id="secTitleSub">Aproveite nossas ofertas especiais</p>
 </div>
+
+
 <div class="products-grid" id="productsGrid"></div>
+
+<!-- ═══════════════════════ HORÁRIO DE FUNCIONAMENTO ════════════════════════ -->
+<section class="hours-section">
+  <h2>Horário de <span>Funcionamento</span></h2>
+  <p class="hours-sub">Venha nos visitar ou faça seu pedido pelo WhatsApp</p>
+
+  <div class="hours-status" id="hoursStatus">
+    <span class="status-dot"></span>
+    <span id="hoursStatusText">Verificando...</span>
+  </div>
+
+  <div class="hours-grid">
+    <div class="hours-card" id="hcard-seg-sex">
+      <div class="hours-card-days">Segunda — Sexta</div>
+      <div class="hours-card-time">07:00 – 19:00</div>
+      <div class="hours-card-note">Atendimento completo</div>
+    </div>
+    <div class="hours-card" id="hcard-sabado">
+      <div class="hours-card-days">Sábado</div>
+      <div class="hours-card-time">07:00 – 17:00</div>
+      <div class="hours-card-note">Atendimento completo</div>
+    </div>
+    <div class="hours-card" id="hcard-domingo">
+      <div class="hours-card-days">Domingo</div>
+      <div class="hours-card-time">07:00 – 12:00</div>
+      <div class="hours-card-note">Apenas pela manhã</div>
+    </div>
+  </div>
+</section>
 
 <!-- ════════════════════════════ CART OVERLAY ══════════════════════════════ -->
 <div class="overlay" id="overlay" onclick="closeCart()"></div>
@@ -748,10 +1129,50 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
       <div class="total-row"><span>Subtotal</span><span id="totalSub">R$ 0,00</span></div>
       <div class="total-row grand"><span>Total</span><span id="totalVal">R$ 0,00</span></div>
     </div>
-    <button class="clear-cart" onclick="clearCart()">🗑 Limpar carrinho</button>
-    <button class="wa-btn" id="waBtn" onclick="openOrderModal()" disabled>
-      📱 Enviar Pedido pelo WhatsApp
-    </button>
+
+    <div class="drawer-delivery">
+      <div class="drawer-delivery-title">📍 Dados para Entrega</div>
+
+      <div class="drawer-field">
+        <label>Seu nome <span class="req">*</span></label>
+        <input type="text" id="dName" placeholder="Como devemos te chamar?" maxlength="50"/>
+      </div>
+
+      <div class="drawer-field-row col-2">
+        <div class="drawer-field">
+          <label>Rua / Avenida <span class="req">*</span></label>
+          <input type="text" id="dStreet" placeholder="Ex: Rua das Flores"/>
+        </div>
+        <div class="drawer-field">
+          <label>Número <span class="req">*</span></label>
+          <input type="text" id="dNumber" placeholder="Ex: 123" maxlength="10"/>
+        </div>
+      </div>
+
+      <div class="drawer-field">
+        <label>Bairro <span class="req">*</span></label>
+        <input type="text" id="dNeighborhood" placeholder="Ex: Verde Vale"/>
+      </div>
+
+      <div class="drawer-field-row col-equal">
+        <div class="drawer-field">
+          <label>Complemento <span class="opt">opcional</span></label>
+          <input type="text" id="dComp" placeholder="Apto, Casa, Bloco..."/>
+        </div>
+        <div class="drawer-field">
+          <label>Referência <span class="opt">opcional</span></label>
+          <input type="text" id="dRef" placeholder="Próx. ao mercado..."/>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-foot-actions">
+      <button class="clear-cart" onclick="clearCart()" title="Limpar carrinho">🗑</button>
+      <button class="wa-btn" id="waBtn" onclick="finalizarPedido()" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Finalizar Pedido
+      </button>
+    </div>
   </div>
 </div>
 
@@ -886,11 +1307,10 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
       <div class="field">
         <label>Categoria</label>
         <select id="pmCat">
-          <option value="bovino">🐄 Bovino</option>
-          <option value="suino">🐷 Suíno</option>
-          <option value="frango">🐔 Frango</option>
-          <option value="cordeiro">🐑 Cordeiro</option>
-          <option value="especial">⭐ Especial</option>
+          <option value="premium">👑 Cortes Premium</option>
+          <option value="churrasco">🍖 Para o Churrasco</option>
+          <option value="diaadia">🍽️ Dia a Dia</option>
+          <option value="diversos">🛒 Diversos</option>
         </select>
       </div>
     </div>
@@ -1052,21 +1472,9 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
     <!-- tab configurações -->
     <div class="settings-section" id="tabSettings">
       <div class="settings-card">
-        <h4>Alterar Credenciais</h4>
-        <p>Defina o usuário e senha que serão usados para acessar este painel. Guarde em local seguro.</p>
-        <div class="field">
-          <label>Novo usuário</label>
-          <input type="text" id="newUser" placeholder="admin" autocomplete="off"/>
-        </div>
-        <div class="field">
-          <label>Nova senha</label>
-          <input type="password" id="newPass" placeholder="Mínimo 4 caracteres" autocomplete="new-password"/>
-        </div>
-        <div class="field">
-          <label>Confirmar senha</label>
-          <input type="password" id="newPassConfirm" placeholder="Repita a senha" autocomplete="new-password"/>
-        </div>
-        <button class="btn-save-settings" onclick="saveCredentials()">💾 Salvar Credenciais</button>
+        <h4>Conta Admin</h4>
+        <p>As credenciais são gerenciadas diretamente no painel do Supabase em <strong>Authentication → Users</strong>.</p>
+        <button class="btn-save-settings" onclick="doLogout()" style="background:linear-gradient(135deg,#c0392b,#e74c3c);margin-bottom:0">🚪 Encerrar Sessão</button>
 
         <hr class="settings-divider"/>
         <h4>Número do WhatsApp da Loja</h4>
@@ -1086,15 +1494,134 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
   </div>
 </div>
 
+<!-- ═══════════════════════════ CARRINHO FLUTUANTE ════════════════════════ -->
+<button class="fab-cart" id="fabCart" onclick="openCart()" title="Ver carrinho">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#080808" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+  </svg>
+  <span class="fab-badge" id="fabBadge">0</span>
+  <span class="fab-total" id="fabTotal"></span>
+</button>
+
 <!-- ═══════════════════════════════ TOAST ════════════════════════════════ -->
 <div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════ POR QUE ESCOLHER ══════════════════════════ -->
+<section class="why-section">
+  <div class="why-head">
+    <h2>Por que escolher a <span>Corte Nobre?</span></h2>
+    <p>Mais de uma razão para você nunca mais precisar ir a outro lugar para comprar carne.</p>
+  </div>
+
+  <div class="why-features">
+    <div class="why-card">
+      <div class="why-icon-wrap">🥩</div>
+      <h3>Carnes Selecionadas</h3>
+      <p>Trabalhamos apenas com fornecedores certificados e animais de alto padrão. Cada peça é inspecionada com cuidado antes de chegar à sua mesa — frescor e qualidade garantidos.</p>
+      <span class="why-card-tag">Qualidade Premium</span>
+    </div>
+
+    <div class="why-card">
+      <div class="why-icon-wrap">🔪</div>
+      <h3>Cortes Personalizados</h3>
+      <p>Nosso açougueiro corta do jeito que você preferir — bifes, cubos, moído, tiras ou peça inteira. Basta pedir! Atendemos com atenção e cuidado cada detalhe do seu pedido.</p>
+      <span class="why-card-tag">Do seu jeito</span>
+    </div>
+
+    <div class="why-card">
+      <div class="why-icon-wrap">🚚</div>
+      <h3>Entrega Rápida na Região</h3>
+      <p>Entregamos em toda Sete Lagoas com agilidade e cuidado, sem custo extra. Frete <strong style="color:var(--gold)">100% grátis</strong> para todos os bairros — do Centro ao Verde Vale.</p>
+      <span class="why-card-tag">Frete Grátis</span>
+    </div>
+
+    <div class="why-card">
+      <div class="why-icon-wrap">📱</div>
+      <h3>Pedido pelo WhatsApp</h3>
+      <p>Sem app, sem cadastro, sem complicação. Monte seu carrinho aqui, clique em enviar e receba a confirmação direto no WhatsApp em segundos. Simples assim.</p>
+      <span class="why-card-tag">Super fácil</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ DEPOIMENTOS ═══════════════════════════════ -->
+<section class="testimonials-wrap">
+  <div class="testimonials-head">
+    <h2>O que nossos <span>clientes dizem</span></h2>
+    <p>Avaliações reais de quem já pediu e aprovou</p>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="tcard">
+      <span class="tcard-quote">"</span>
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">Melhor picanha que já comi em Sete Lagoas! O churrasco da família nunca mais foi o mesmo. Chegou fresquinha e bem embalada.</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar">J</div>
+        <div class="tcard-info">
+          <span class="tcard-name">João Mendes</span>
+          <span class="tcard-loc">Verde Vale</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tcard">
+      <span class="tcard-quote">"</span>
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">Entrega super rápida e a carne chegou fresquinha. Pedi pelo WhatsApp e foi moleza. Recomendo demais para quem mora aqui na região!</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar">A</div>
+        <div class="tcard-info">
+          <span class="tcard-name">Ana Cristina</span>
+          <span class="tcard-loc">Centro</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tcard">
+      <span class="tcard-quote">"</span>
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">Fiz meu pedido pelo site e em menos de 40 minutos já estava em casa. Atendimento nota 10, carne de qualidade e preço justo. Virei cliente fixo!</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar">C</div>
+        <div class="tcard-info">
+          <span class="tcard-name">Carlos Santos</span>
+          <span class="tcard-loc">Boa Vista</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tcard">
+      <span class="tcard-quote">"</span>
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">O filé mignon daqui é incrível. Pedi o corte em medalhões e ficou perfeito. Nunca mais vou comprar carne em supermercado. Vale cada centavo!</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar">M</div>
+        <div class="tcard-info">
+          <span class="tcard-name">Maria Lima</span>
+          <span class="tcard-loc">Jardim Europa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
 <footer>
   <div class="footer-logo">Corte Nobre</div>
   <div class="footer-stars">★★★★★</div>
-  <p>Açougue Premium — Qualidade garantida em cada corte<br>
-     Atendimento via WhatsApp · Entrega e retirada disponíveis</p>
+  <p>Casa de Carnes — Qualidade garantida em cada corte<br>
+     <a href="https://www.google.com/maps/search/?api=1&query=Av.+Jos%C3%A9+S%C3%A9rvulo+Soalheiro+3962+Verde+Vale+Sete+Lagoas+MG"
+        target="_blank" rel="noopener" class="footer-link">
+       📍 Av. José Sérvulo Soalheiro, 3962 — Verde Vale, Sete Lagoas — MG
+     </a><br>
+     <a href="https://wa.me/5531973514636" target="_blank" rel="noopener" class="footer-link footer-link-wa">
+       💬 (31) 97351-4636 — Chamar no WhatsApp
+     </a>
+     &nbsp;·&nbsp;
+     <a href="tel:+5531973514636" class="footer-link">📞 Ligar agora</a>
+  </p>
 </footer>
 
 <script>
@@ -1102,25 +1629,38 @@ footer p{color:var(--muted);font-size:.78rem;line-height:1.8}
 //  DADOS INICIAIS
 // ══════════════════════════════════════════════════════════════════
 const DEFAULT_PRODUCTS = [
-  {id:1,cat:'bovino',emoji:'🥩',name:'Picanha Especial',desc:'Corte nobre com capa de gordura. Ideal para churrasco premium.',price:89.90,unit:'kg',badge:'Premium',img:''},
-  {id:2,cat:'bovino',emoji:'🥩',name:'Contrafilé',desc:'Macio e suculento, perfeito para grelha ou frigideira.',price:54.90,unit:'kg',badge:'',img:''},
-  {id:3,cat:'bovino',emoji:'🥩',name:'Filé Mignon',desc:'O corte mais macio do bovino. Sabor incomparável, textura de seda.',price:99.90,unit:'kg',badge:'Top',img:''},
-  {id:4,cat:'bovino',emoji:'🥩',name:'Alcatra',desc:'Versátil e saborosa, ótima para assados e churrasco.',price:49.90,unit:'kg',badge:'',img:''},
-  {id:5,cat:'bovino',emoji:'🥩',name:'Costela Bovina',desc:'Lentamente preparada fica irresistível. Corte generoso e suculento.',price:39.90,unit:'kg',badge:'',img:''},
-  {id:6,cat:'bovino',emoji:'🥩',name:'Carne Moída Especial',desc:'Patinho moído fresco, selecionado na hora. Zero gordura excessiva.',price:29.90,unit:'kg',badge:'',img:''},
-  {id:7,cat:'suino',emoji:'🐷',name:'Pernil Suíno',desc:'Corte generoso e suculento para festas e assados especiais.',price:22.90,unit:'kg',badge:'',img:''},
-  {id:8,cat:'suino',emoji:'🐷',name:'Lombo Suíno',desc:'Magro e macio. Excelente para assar recheado com ervas.',price:26.90,unit:'kg',badge:'',img:''},
-  {id:9,cat:'suino',emoji:'🥓',name:'Costelinha Suína',desc:'Ideal para churrasco com molho barbecue. Carne macia e saborosa.',price:32.90,unit:'kg',badge:'Favorito',img:''},
-  {id:10,cat:'suino',emoji:'🥓',name:'Bacon em Fatias',desc:'Defumado artesanalmente. Crocante e irresistível no prato.',price:34.90,unit:'kg',badge:'',img:''},
-  {id:11,cat:'frango',emoji:'🍗',name:'Frango Inteiro',desc:'Frango caipira, limpo e pronto para o forno ou grelha.',price:16.90,unit:'kg',badge:'',img:''},
-  {id:12,cat:'frango',emoji:'🍗',name:'Coxa e Sobrecoxa',desc:'Corte mais suculento do frango, muito saboroso e versátil.',price:13.90,unit:'kg',badge:'',img:''},
-  {id:13,cat:'frango',emoji:'🍗',name:'Peito de Frango',desc:'Magro, rico em proteínas. Perfeito para dietas e fitness.',price:18.90,unit:'kg',badge:'Saudável',img:''},
-  {id:14,cat:'frango',emoji:'🍗',name:'Asa de Frango',desc:'Tempera rápido e fica crocante. Ótima para aperitivo e petisco.',price:11.90,unit:'kg',badge:'',img:''},
-  {id:15,cat:'cordeiro',emoji:'🐑',name:'Costela de Cordeiro',desc:'Sabor delicado e suave. Corte nobre de alta gastronomia.',price:79.90,unit:'kg',badge:'Nobre',img:''},
-  {id:16,cat:'cordeiro',emoji:'🐑',name:'Pernil de Cordeiro',desc:'Macio e aromático. Ideal para ocasiões especiais com vinho.',price:74.90,unit:'kg',badge:'',img:''},
-  {id:17,cat:'especial',emoji:'🥩',name:'Kit Churrasco Completo',desc:'Picanha + costela + linguiça artesanal. Serve até 6 pessoas.',price:189.90,unit:'kit',badge:'Oferta',img:''},
-  {id:18,cat:'especial',emoji:'🌭',name:'Linguiça Artesanal',desc:'Produção própria com especiarias selecionadas. Pura qualidade.',price:28.90,unit:'kg',badge:'',img:''},
-  {id:19,cat:'especial',emoji:'🥩',name:'Hambúrguer Artesanal',desc:'Blend de carnes nobres. Cada unidade com 180g de puro sabor.',price:8.90,unit:'un',badge:'Novo',img:''},
+  // ── Cortes Premium ──────────────────────────────────────────
+  {id:1, cat:'premium', emoji:'🥩', name:'Picanha Especial',       desc:'Corte nobre com capa de gordura generosa. Ideal para churrasco premium.',                price:89.90, unit:'kg',  badge:'Premium', img:''},
+  {id:2, cat:'premium', emoji:'🥩', name:'Filé Mignon',            desc:'O corte mais macio do bovino. Sabor incomparável, textura de seda.',                     price:99.90, unit:'kg',  badge:'Top',     img:''},
+  {id:3, cat:'premium', emoji:'🥩', name:'Alcatra',                desc:'Versátil e saborosa, ótima para assados, grelha e churrasco.',                            price:49.90, unit:'kg',  badge:'',        img:''},
+  {id:4, cat:'premium', emoji:'🥩', name:'Contrafilé',             desc:'Macio e suculento, perfeito para grelha ou frigideira.',                                  price:54.90, unit:'kg',  badge:'',        img:''},
+  {id:5, cat:'premium', emoji:'🐑', name:'Costela de Cordeiro',    desc:'Sabor delicado e suave. Corte nobre de alta gastronomia.',                                price:79.90, unit:'kg',  badge:'Nobre',   img:''},
+  {id:6, cat:'premium', emoji:'🐑', name:'Pernil de Cordeiro',     desc:'Macio e aromático. Ideal para ocasiões especiais com vinho.',                             price:74.90, unit:'kg',  badge:'',        img:''},
+
+  // ── Para o Churrasco ────────────────────────────────────────
+  {id:7, cat:'churrasco', emoji:'🍖', name:'Costela Bovina',       desc:'Lentamente preparada fica irresistível. Corte generoso e suculento.',                    price:39.90, unit:'kg',  badge:'',        img:''},
+  {id:8, cat:'churrasco', emoji:'🍖', name:'Costelinha Suína',     desc:'Ideal para churrasco com molho barbecue. Carne macia e saborosa.',                       price:32.90, unit:'kg',  badge:'Favorito',img:''},
+  {id:9, cat:'churrasco', emoji:'🥩', name:'Cupim',                desc:'Corte com gordura entremeada, muito saboroso e macio na brasa. Churrasco raiz.',          price:44.90, unit:'kg',  badge:'',        img:''},
+  {id:10,cat:'churrasco', emoji:'🥩', name:'Fraldinha',            desc:'Fibras longas e sabor intenso. Um dos cortes favoritos do churrasco brasileiro.',         price:47.90, unit:'kg',  badge:'',        img:''},
+  {id:11,cat:'churrasco', emoji:'🌭', name:'Linguiça Artesanal',   desc:'Produção própria com especiarias selecionadas. Pura qualidade na brasa.',                price:28.90, unit:'kg',  badge:'',        img:''},
+  {id:12,cat:'churrasco', emoji:'🥩', name:'Kit Churrasco Completo',desc:'Picanha + costela + linguiça artesanal. Serve até 6 pessoas. Promoção imperdível!',     price:189.90,unit:'kit', badge:'Oferta',  img:''},
+
+  // ── Cortes do Dia a Dia ─────────────────────────────────────
+  {id:13,cat:'diaadia', emoji:'🥩', name:'Coxão Mole',             desc:'Macio e magro, ideal para escalopes, bife à milanesa e ensopados.',                      price:32.90, unit:'kg',  badge:'',        img:''},
+  {id:14,cat:'diaadia', emoji:'🥩', name:'Patinho',                desc:'Carne magra e versátil. Ótima moída, em cubos ou como bife.',                            price:27.90, unit:'kg',  badge:'',        img:''},
+  {id:15,cat:'diaadia', emoji:'🥩', name:'Carne Moída Especial',   desc:'Patinho moído fresco, selecionado na hora. Zero gordura excessiva.',                     price:29.90, unit:'kg',  badge:'',        img:''},
+  {id:16,cat:'diaadia', emoji:'🍗', name:'Frango Inteiro',         desc:'Frango caipira, limpo e pronto para o forno ou grelha.',                                 price:16.90, unit:'kg',  badge:'',        img:''},
+  {id:17,cat:'diaadia', emoji:'🍗', name:'Coxa e Sobrecoxa',       desc:'Corte mais suculento do frango, muito saboroso e versátil.',                             price:13.90, unit:'kg',  badge:'',        img:''},
+  {id:18,cat:'diaadia', emoji:'🍗', name:'Peito de Frango',        desc:'Magro, rico em proteínas. Perfeito para dietas e fitness.',                              price:18.90, unit:'kg',  badge:'Saudável',img:''},
+  {id:19,cat:'diaadia', emoji:'🍗', name:'Asa de Frango',          desc:'Tempera rápido e fica crocante. Ótima para aperitivo e petisco.',                        price:11.90, unit:'kg',  badge:'',        img:''},
+  {id:20,cat:'diaadia', emoji:'🐷', name:'Pernil Suíno',           desc:'Corte generoso e suculento para festas e assados especiais.',                            price:22.90, unit:'kg',  badge:'',        img:''},
+  {id:21,cat:'diaadia', emoji:'🐷', name:'Lombo Suíno',            desc:'Magro e macio. Excelente para assar recheado com ervas.',                               price:26.90, unit:'kg',  badge:'',        img:''},
+  {id:22,cat:'diaadia', emoji:'🥩', name:'Hambúrguer Artesanal',   desc:'Blend de carnes nobres. Cada unidade com 180g de puro sabor.',                          price:8.90,  unit:'un',  badge:'Novo',    img:''},
+
+  // ── Diversos ────────────────────────────────────────────────
+  {id:23,cat:'diversos', emoji:'🦴', name:'Mocotó',                desc:'Gelatinoso e saboroso. Base perfeita para caldos reconfortantes e sopas.',               price:14.90, unit:'kg',  badge:'',        img:''},
+  {id:24,cat:'diversos', emoji:'🫀', name:'Fígado Bovino',         desc:'Rico em ferro e nutrientes. Ao molho, acebolado ou com limão — muito nutritivo.',        price:16.90, unit:'kg',  badge:'',        img:''},
+  {id:25,cat:'diversos', emoji:'🥓', name:'Bacon em Fatias',       desc:'Defumado artesanalmente. Crocante e irresistível no prato.',                            price:34.90, unit:'kg',  badge:'',        img:''},
 ];
 
 const BAIRROS = [
@@ -1173,50 +1713,62 @@ const BAIRROS = [
 ];
 
 const CATS = [
-  {key:'todos',label:'Todos',emoji:''},
-  {key:'bovino',label:'Bovino',emoji:'🐄'},
-  {key:'suino',label:'Suíno',emoji:'🐷'},
-  {key:'frango',label:'Frango',emoji:'🐔'},
-  {key:'cordeiro',label:'Cordeiro',emoji:'🐑'},
-  {key:'especial',label:'Especiais',emoji:'⭐'},
+  {key:'promo',     label:'Promoções',        emoji:'⚡'},
+  {key:'todos',     label:'Todos',            emoji:''},
+  {key:'premium',   label:'Cortes Premium',   emoji:'👑'},
+  {key:'churrasco', label:'Para o Churrasco', emoji:'🍖'},
+  {key:'diaadia',   label:'Dia a Dia',        emoji:'🍽️'},
+  {key:'diversos',  label:'Diversos',         emoji:'🛒'},
 ];
 
 // ══════════════════════════════════════════════════════════════════
-//  AUTH
+//  SUPABASE — cliente + auth reativa
 // ══════════════════════════════════════════════════════════════════
-const DEFAULT_CREDS = { user: 'admin', hash: btoa('admin:cortenobre123') };
+const SUPABASE_URL = 'https://hltwqpdmzefnlcpewhal.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHdxcGRtemVmbmxjcGV3aGFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMTMzMjcsImV4cCI6MjA5MTY4OTMyN30.zD1DE_SeYLcbIUAFJfDLA6BoFDMV_p-TSzgYOhNxDrk';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-function loadCreds(){
-  try{ const s=localStorage.getItem('cn_creds'); if(s) return JSON.parse(s); }catch(e){}
-  return DEFAULT_CREDS;
-}
-function saveCreds(obj){ localStorage.setItem('cn_creds', JSON.stringify(obj)); }
-
-function isLoggedIn(){ return sessionStorage.getItem('cn_admin')==='1'; }
-
-function doLogin(){
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value;
-  const creds = loadCreds();
-  const hash = btoa(user+':'+pass);
-  if(hash === creds.hash){
-    sessionStorage.setItem('cn_admin','1');
-    closeLoginModal();
-    updateAdminBtn();
-    renderProducts();
-    openAdmin();
-    showToast('Bem-vindo ao painel admin! 👋','success');
-  } else {
-    document.getElementById('loginError').classList.add('show');
-    document.getElementById('loginPass').value='';
-    document.getElementById('loginPass').focus();
-  }
-}
-
-function doLogout(){
-  sessionStorage.removeItem('cn_admin');
+let _isAdmin = false;
+supabase.auth.onAuthStateChange((event, session) => {
+  _isAdmin = !!session;
   updateAdminBtn();
   renderProducts();
+});
+
+function isLoggedIn(){ return _isAdmin; }
+
+async function doLogin(){
+  const errEl = document.getElementById('loginError');
+  errEl.classList.remove('show');
+  const username = document.getElementById('loginUser').value.trim();
+  const pass     = document.getElementById('loginPass').value;
+  if(!username || !pass){
+    errEl.textContent = 'Preencha usuário e senha.';
+    errEl.classList.add('show'); return;
+  }
+  // Busca o e-mail vinculado ao username na tabela admin_users
+  const { data: adminRow } = await supabase
+    .from('admin_users').select('email').eq('username', username).single();
+  if(!adminRow){
+    errEl.textContent = 'Usuário ou senha incorretos.';
+    errEl.classList.add('show');
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginPass').focus(); return;
+  }
+  const { error } = await supabase.auth.signInWithPassword({ email: adminRow.email, password: pass });
+  if(error){
+    errEl.textContent = 'Usuário ou senha incorretos.';
+    errEl.classList.add('show');
+    document.getElementById('loginPass').value='';
+    document.getElementById('loginPass').focus(); return;
+  }
+  closeLoginModal();
+  openAdmin();
+  showToast('Bem-vindo ao painel admin! 👋','success');
+}
+
+async function doLogout(){
+  await supabase.auth.signOut();
   closeAdmin();
   showToast('Sessão encerrada.','');
 }
@@ -1246,37 +1798,20 @@ function openLoginModal(){
 }
 function closeLoginModal(){ document.getElementById('loginModal').classList.remove('open'); }
 
-function saveCredentials(){
-  const user = document.getElementById('newUser').value.trim();
-  const pass = document.getElementById('newPass').value;
-  const conf = document.getElementById('newPassConfirm').value;
-  if(!user){ showToast('Informe o nome de usuário.','error'); return; }
-  if(pass.length<4){ showToast('A senha deve ter ao menos 4 caracteres.','error'); return; }
-  if(pass!==conf){ showToast('As senhas não coincidem.','error'); return; }
-  saveCreds({ user, hash: btoa(user+':'+pass) });
-  document.getElementById('newPass').value='';
-  document.getElementById('newPassConfirm').value='';
-  showToast('Credenciais salvas com sucesso!','success');
-}
-
 function switchTab(tab, el){
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('tabProducts').classList.toggle('active', tab==='products');
   document.getElementById('tabSettings').classList.toggle('active', tab==='settings');
   document.getElementById('btnAddProduct').style.display = tab==='products'?'':'none';
-  if(tab==='settings'){
-    const creds=loadCreds();
-    document.getElementById('newUser').value=creds.user||'';
-    document.getElementById('storePhone').value=loadStorePhone();
-  }
+  if(tab==='settings') document.getElementById('storePhone').value=loadStorePhone();
 }
 
 // ══════════════════════════════════════════════════════════════════
 //  STORE PHONE (configurável)
 // ══════════════════════════════════════════════════════════════════
 function loadStorePhone(){
-  return localStorage.getItem('cn_phone')||'5531999900953';
+  return localStorage.getItem('cn_phone')||'5531973514636';
 }
 function saveStorePhone(){
   const v=document.getElementById('storePhone').value.replace(/\D/g,'');
@@ -1286,23 +1821,18 @@ function saveStorePhone(){
 }
 
 // ══════════════════════════════════════════════════════════════════
-//  STATE (persistido em localStorage)
+//  PRODUCTS — Supabase
 // ══════════════════════════════════════════════════════════════════
-function loadProducts(){
-  try{
-    const s = localStorage.getItem('cn_products');
-    if(s) return JSON.parse(s);
-  }catch(e){}
-  return JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-}
-function saveProducts(){
-  localStorage.setItem('cn_products', JSON.stringify(products));
+async function fetchProducts(){
+  const { data, error } = await supabase.from('products').select('*').order('id');
+  if(error){ console.error('fetchProducts:', error); return DEFAULT_PRODUCTS.map(p=>({...p})); }
+  return data.map(p=>({...p, desc: p.description}));
 }
 
-let products = loadProducts();
+let products = [];
 let cart = {};
-let currentCat = 'todos';
-let nextId = Math.max(...products.map(p=>p.id), 0) + 1;
+let currentCat = 'promo';
+let nextId = 1;
 let pendingDeleteId = null;
 let pendingImgProductId = null;
 let pendingImgData = ''; // base64 or url
@@ -1310,14 +1840,29 @@ let pendingImgData = ''; // base64 or url
 // ══════════════════════════════════════════════════════════════════
 //  RENDER — CATEGORIES
 // ══════════════════════════════════════════════════════════════════
+const CAT_TITLES = {
+  promo:     { h:'Promoções <span>em Destaque</span>',       sub:'Produtos com etiquetas especiais' },
+  todos:     { h:'Todos os <span>Produtos</span>',           sub:'Nosso catálogo completo' },
+  premium:   { h:'Cortes <span>Premium</span>',              sub:'Os melhores cortes da casa' },
+  churrasco: { h:'Seleção para o <span>Churrasco</span>',   sub:'Da brasa direto para a sua mesa' },
+  diaadia:   { h:'Cortes do <span>Dia a Dia</span>',        sub:'Praticidade e sabor no cotidiano' },
+  diversos:  { h:'<span>Miúdos</span> e Outros Cortes',     sub:'Mocotó, fígado e muito mais' },
+};
+
 function renderCats(){
+  // barra superior de categorias
   const wrap = document.getElementById('catsWrap');
   wrap.innerHTML = CATS.map(c=>`
     <button class="cat-btn${currentCat===c.key?' active':''}"
-      onclick="filterCat('${c.key}',this)">
+      onclick="filterCat('${c.key}')">
       ${c.emoji?c.emoji+' ':''}${c.label}
     </button>
   `).join('');
+
+  // atualiza título da seção
+  const t = CAT_TITLES[currentCat] || CAT_TITLES['todos'];
+  document.getElementById('secTitleH').innerHTML   = t.h;
+  document.getElementById('secTitleSub').textContent = t.sub;
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1333,7 +1878,9 @@ function thumbHtml(p, size='full'){
 
 function renderProducts(){
   const grid = document.getElementById('productsGrid');
-  const list = currentCat==='todos' ? products : products.filter(p=>p.cat===currentCat);
+  const list = currentCat==='todos' ? products
+             : currentCat==='promo' ? products.filter(p=>p.badge&&p.badge.trim()!=='')
+             : products.filter(p=>p.cat===currentCat);
 
   if(!list.length){
     grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted)">
@@ -1383,6 +1930,12 @@ function filterCat(key){
   currentCat = key;
   renderCats();
   renderProducts();
+  // rola suavemente até o título da seção, descontando a altura do header fixo
+  const secTitle = document.getElementById('secTitle');
+  if(secTitle){
+    const top = secTitle.getBoundingClientRect().top + window.scrollY - 84;
+    window.scrollTo({top, behavior:'smooth'});
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -1438,6 +1991,7 @@ function updateCartUI(){
     const p=products.find(x=>x.id===+id);
     return s+(p?p.price*q:0);
   },0);
+  const fmt = v=>`R$ ${v.toFixed(2).replace('.',',')}`;
 
   // header badge
   const cc = document.getElementById('cartCount');
@@ -1448,12 +2002,85 @@ function updateCartUI(){
 
   // drawer
   document.getElementById('drawerCount').textContent=`${totalQty} ${totalQty===1?'item':'itens'}`;
-  const fmt = v=>`R$ ${v.toFixed(2).replace('.',',')}`;
   document.getElementById('totalSub').textContent=fmt(totalVal);
   document.getElementById('totalVal').textContent=fmt(totalVal);
   document.getElementById('waBtn').disabled=totalQty===0;
 
+  // carrinho flutuante
+  const fab      = document.getElementById('fabCart');
+  const fabBadge = document.getElementById('fabBadge');
+  const fabTotal = document.getElementById('fabTotal');
+  fabBadge.textContent = totalQty;
+  fabBadge.classList.toggle('visible', totalQty > 0);
+  fabBadge.classList.remove('bump');
+  void fabBadge.offsetWidth;
+  if(totalQty > 0) fabBadge.classList.add('bump');
+  fab.classList.toggle('has-items', totalQty > 0);
+  fabTotal.textContent = totalQty > 0 ? fmt(totalVal) : '';
+  fabTotal.classList.toggle('visible', totalQty > 0);
+
   renderCartList(entries);
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  PEDIDO RÁPIDO VIA WHATSAPP (carrinho flutuante)
+// ══════════════════════════════════════════════════════════════════
+// sendQuickOrder mantido por compatibilidade mas não usado na UI principal
+function sendQuickOrder(){ openCart(); }
+
+function finalizarPedido(){
+  const entries = Object.entries(cart).filter(([,q])=>q>0);
+
+  // coleta campos
+  const name   = document.getElementById('dName').value.trim();
+  const street = document.getElementById('dStreet').value.trim();
+  const number = document.getElementById('dNumber').value.trim();
+  const neighborhood = document.getElementById('dNeighborhood').value.trim();
+  const comp   = document.getElementById('dComp').value.trim();
+  const ref    = document.getElementById('dRef').value.trim();
+
+  // helper: marca campo inválido e devolve false
+  function invalid(id, msg){
+    const el = document.getElementById(id);
+    el.classList.add('invalid');
+    el.focus();
+    setTimeout(()=>el.classList.remove('invalid'), 600);
+    showToast(msg, 'error');
+    return false;
+  }
+
+  if(!entries.length)
+    return showToast('Adicione itens ao carrinho primeiro! 🛒','error');
+  if(!name)   return invalid('dName',   'Informe seu nome! 👤');
+  if(!street) return invalid('dStreet', 'Informe a rua/avenida! 🏠');
+  if(!number) return invalid('dNumber', 'Informe o número! 🔢');
+  if(!neighborhood) return invalid('dNeighborhood','Informe o bairro! 📍');
+
+  // monta endereço completo
+  let addressLine = `${street}, ${number} — ${neighborhood}`;
+  if(comp) addressLine += ` (${comp})`;
+  if(ref)  addressLine += ` — Ref: ${ref}`;
+
+  // monta itens
+  let total = 0;
+  let linhas = '';
+  entries.forEach(([id,qty])=>{
+    const p = products.find(x=>x.id===+id);
+    if(!p) return;
+    total += p.price * qty;
+    linhas += `- ${qty}${p.unit} de ${p.name}\n`;
+  });
+
+  const totalFmt = `R$ ${total.toFixed(2).replace('.',',')}`;
+  const msg =
+    `Olá, Corte Nobre! Gostaria de fazer um pedido para entrega:\n\n` +
+    `${linhas}\n` +
+    `Total: ${totalFmt}\n` +
+    `Nome: ${name}\n` +
+    `Endereço: ${addressLine}`;
+
+  window.open(`https://wa.me/${loadStorePhone()}?text=${encodeURIComponent(msg)}`,'_blank');
+  showToast('Abrindo WhatsApp... 🚀','success');
 }
 
 function renderCartList(entries){
@@ -1628,19 +2255,30 @@ function applyImgModalUrl(){
   prev.src=url;prev.style.display='block';
 }
 
-function saveProductImage(){
+async function saveProductImage(){
   const id=+document.getElementById('imgProductId').value;
   const urlField=document.getElementById('imgUrl').value.trim();
   const imgData=pendingImgData||urlField;
   if(!imgData){ showToast('Selecione ou cole uma imagem.','error'); return; }
-  const p=products.find(x=>x.id===id);
-  if(p){
-    p.img=imgData;
-    saveProducts();
-    renderProducts();
-    renderAdminGrid();
-    showToast('Imagem atualizada!','success');
+
+  let finalUrl = imgData;
+  if(imgData.startsWith('data:')){
+    const ext  = imgData.split(';')[0].split('/')[1];
+    const fileName = `${Date.now()}.${ext}`;
+    const blob = await (await fetch(imgData)).blob();
+    const { data: upData, error: upErr } = await supabase.storage
+      .from('produtos').upload(fileName, blob, { contentType: blob.type, upsert: true });
+    if(upErr){ showToast('Erro ao enviar imagem.','error'); console.error(upErr); return; }
+    const { data: urlData } = supabase.storage.from('produtos').getPublicUrl(upData.path);
+    finalUrl = urlData.publicUrl;
   }
+
+  const { error } = await supabase.from('products').update({ img: finalUrl }).eq('id', id);
+  if(error){ showToast('Erro ao salvar imagem.','error'); console.error(error); return; }
+
+  const p=products.find(x=>x.id===id);
+  if(p){ p.img=finalUrl; renderProducts(); renderAdminGrid(); }
+  showToast('Imagem atualizada!','success');
   closeImgModal();
 }
 
@@ -1712,7 +2350,7 @@ function applyImgUrl(){
   prev.src=url;prev.style.display='block';
 }
 
-function saveProduct(){
+async function saveProduct(){
   const name  = document.getElementById('pmName').value.trim();
   const cat   = document.getElementById('pmCat').value;
   const desc  = document.getElementById('pmDesc').value.trim();
@@ -1721,21 +2359,39 @@ function saveProduct(){
   const emoji = document.getElementById('pmEmoji').value.trim()||'🥩';
   const badge = document.getElementById('pmBadge').value.trim();
   const urlField = document.getElementById('pmImgUrl').value.trim();
-  const img   = pmImgData || urlField || '';
+  const editId = +document.getElementById('pmEditId').value;
 
   if(!name){ showToast('Informe o nome do produto.','error'); return; }
   if(isNaN(price)||price<0){ showToast('Preço inválido.','error'); return; }
 
-  const editId = +document.getElementById('pmEditId').value;
-
-  if(editId){
-    const p=products.find(x=>x.id===editId);
-    if(p){ Object.assign(p,{name,cat,desc,price,unit,emoji,badge,img}); }
-  } else {
-    products.push({id:nextId++,cat,emoji,name,desc,price,unit,badge,img});
+  // Upload de imagem para o Supabase Storage (se for base64)
+  let img = urlField || '';
+  if(pmImgData && pmImgData.startsWith('data:')){
+    const ext  = pmImgData.split(';')[0].split('/')[1];
+    const fileName = `${Date.now()}.${ext}`;
+    const blob = await (await fetch(pmImgData)).blob();
+    const { data: upData, error: upErr } = await supabase.storage
+      .from('produtos').upload(fileName, blob, { contentType: blob.type, upsert: true });
+    if(upErr){ showToast('Erro ao enviar imagem.','error'); console.error(upErr); return; }
+    const { data: urlData } = supabase.storage.from('produtos').getPublicUrl(upData.path);
+    img = urlData.publicUrl;
+  } else if(pmImgData){
+    img = pmImgData;
   }
 
-  saveProducts();
+  const payload = { cat, emoji, name, description: desc, price, unit, badge, img };
+
+  if(editId){
+    const { error } = await supabase.from('products').update(payload).eq('id', editId);
+    if(error){ showToast('Erro ao atualizar produto.','error'); console.error(error); return; }
+    const p = products.find(x=>x.id===editId);
+    if(p) Object.assign(p, {...payload, desc});
+  } else {
+    const { data, error } = await supabase.from('products').insert(payload).select().single();
+    if(error){ showToast('Erro ao adicionar produto.','error'); console.error(error); return; }
+    products.push({...data, desc: data.description});
+  }
+
   renderCats();
   renderProducts();
   renderAdminGrid();
@@ -1757,11 +2413,12 @@ function closeDeleteModal(){
   document.getElementById('deleteModal').classList.remove('open');
   pendingDeleteId=null;
 }
-function confirmDelete(){
+async function confirmDelete(){
   if(pendingDeleteId===null) return;
+  const { error } = await supabase.from('products').delete().eq('id', pendingDeleteId);
+  if(error){ showToast('Erro ao excluir produto.','error'); console.error(error); return; }
   products=products.filter(p=>p.id!==pendingDeleteId);
   if(cart[pendingDeleteId]) delete cart[pendingDeleteId];
-  saveProducts();
   renderCats();
   renderProducts();
   renderAdminGrid();
@@ -1874,10 +2531,67 @@ document.querySelectorAll('input[name="payment"]').forEach(r=>{
   });
 });
 
-updateAdminBtn();
-renderCats();
-renderProducts();
-updateCartUI();
+async function initApp(){
+  updateAdminBtn();
+  renderCats();
+  products = await fetchProducts();
+  nextId = Math.max(...products.map(p=>p.id), 0) + 1;
+  renderCats();
+  renderProducts();
+  updateCartUI();
+}
+initApp();
+
+// ══════════════════════════════════════════════════════════════════
+//  HORÁRIO DE FUNCIONAMENTO
+// ══════════════════════════════════════════════════════════════════
+(function initHours(){
+  // 0=Dom 1=Seg 2=Ter 3=Qua 4=Qui 5=Sex 6=Sab
+  const schedule = {
+    0: { open:  7, close: 12 }, // Domingo
+    1: { open:  7, close: 19 }, // Segunda
+    2: { open:  7, close: 19 },
+    3: { open:  7, close: 19 },
+    4: { open:  7, close: 19 },
+    5: { open:  7, close: 19 }, // Sexta
+    6: { open:  7, close: 17 }, // Sábado
+  };
+
+  const cardMap = {
+    0: 'hcard-domingo',
+    1: 'hcard-seg-sex', 2: 'hcard-seg-sex',
+    3: 'hcard-seg-sex', 4: 'hcard-seg-sex',
+    5: 'hcard-seg-sex',
+    6: 'hcard-sabado',
+  };
+
+  const now   = new Date();
+  const day   = now.getDay();
+  const hour  = now.getHours() + now.getMinutes() / 60;
+  const rule  = schedule[day];
+  const isOpen = hour >= rule.open && hour < rule.close;
+
+  // Destaca card do dia atual
+  const todayCard = document.getElementById(cardMap[day]);
+  if(todayCard){
+    todayCard.classList.add('today');
+    const badge = document.createElement('div');
+    badge.className = 'hours-today-badge';
+    badge.textContent = 'Hoje';
+    todayCard.insertBefore(badge, todayCard.firstChild);
+  }
+
+  // Atualiza status aberto/fechado
+  const statusEl   = document.getElementById('hoursStatus');
+  const statusText = document.getElementById('hoursStatusText');
+  if(isOpen){
+    statusEl.classList.add('open');
+    statusText.textContent = `Aberto agora · Fecha às ${rule.close}:00h`;
+  } else {
+    statusEl.classList.add('closed');
+    statusText.textContent = `Fechado agora · Abre às ${rule.open}:00h`;
+  }
+})();
 </script>
 </body>
 </html>
