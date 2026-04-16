@@ -1726,10 +1726,10 @@ const CATS = [
 // ══════════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://hltwqpdmzefnlcpewhal.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHdxcGRtemVmbmxjcGV3aGFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMTMzMjcsImV4cCI6MjA5MTY4OTMyN30.zD1DE_SeYLcbIUAFJfDLA6BoFDMV_p-TSzgYOhNxDrk';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let _isAdmin = false;
-supabase.auth.onAuthStateChange((event, session) => {
+sb.auth.onAuthStateChange((event, session) => {
   _isAdmin = !!session;
   updateAdminBtn();
   renderProducts();
@@ -1747,7 +1747,7 @@ async function doLogin(){
     errEl.classList.add('show'); return;
   }
   // Busca o e-mail vinculado ao username na tabela admin_users
-  const { data: adminRow } = await supabase
+  const { data: adminRow } = await sb
     .from('admin_users').select('email').eq('username', username).single();
   if(!adminRow){
     errEl.textContent = 'Usuário ou senha incorretos.';
@@ -1755,7 +1755,7 @@ async function doLogin(){
     document.getElementById('loginPass').value='';
     document.getElementById('loginPass').focus(); return;
   }
-  const { error } = await supabase.auth.signInWithPassword({ email: adminRow.email, password: pass });
+  const { error } = await sb.auth.signInWithPassword({ email: adminRow.email, password: pass });
   if(error){
     errEl.textContent = 'Usuário ou senha incorretos.';
     errEl.classList.add('show');
@@ -1768,7 +1768,7 @@ async function doLogin(){
 }
 
 async function doLogout(){
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   closeAdmin();
   showToast('Sessão encerrada.','');
 }
@@ -1824,7 +1824,7 @@ function saveStorePhone(){
 //  PRODUCTS — Supabase
 // ══════════════════════════════════════════════════════════════════
 async function fetchProducts(){
-  const { data, error } = await supabase.from('products').select('*').order('id');
+  const { data, error } = await sb.from('products').select('*').order('id');
   if(error){ console.error('fetchProducts:', error); return DEFAULT_PRODUCTS.map(p=>({...p})); }
   return data.map(p=>({...p, desc: p.description}));
 }
@@ -2266,14 +2266,14 @@ async function saveProductImage(){
     const ext  = imgData.split(';')[0].split('/')[1];
     const fileName = `${Date.now()}.${ext}`;
     const blob = await (await fetch(imgData)).blob();
-    const { data: upData, error: upErr } = await supabase.storage
+    const { data: upData, error: upErr } = await sb.storage
       .from('produtos').upload(fileName, blob, { contentType: blob.type, upsert: true });
     if(upErr){ showToast('Erro ao enviar imagem.','error'); console.error(upErr); return; }
-    const { data: urlData } = supabase.storage.from('produtos').getPublicUrl(upData.path);
+    const { data: urlData } = sb.storage.from('produtos').getPublicUrl(upData.path);
     finalUrl = urlData.publicUrl;
   }
 
-  const { error } = await supabase.from('products').update({ img: finalUrl }).eq('id', id);
+  const { error } = await sb.from('products').update({ img: finalUrl }).eq('id', id);
   if(error){ showToast('Erro ao salvar imagem.','error'); console.error(error); return; }
 
   const p=products.find(x=>x.id===id);
@@ -2370,10 +2370,10 @@ async function saveProduct(){
     const ext  = pmImgData.split(';')[0].split('/')[1];
     const fileName = `${Date.now()}.${ext}`;
     const blob = await (await fetch(pmImgData)).blob();
-    const { data: upData, error: upErr } = await supabase.storage
+    const { data: upData, error: upErr } = await sb.storage
       .from('produtos').upload(fileName, blob, { contentType: blob.type, upsert: true });
     if(upErr){ showToast('Erro ao enviar imagem.','error'); console.error(upErr); return; }
-    const { data: urlData } = supabase.storage.from('produtos').getPublicUrl(upData.path);
+    const { data: urlData } = sb.storage.from('produtos').getPublicUrl(upData.path);
     img = urlData.publicUrl;
   } else if(pmImgData){
     img = pmImgData;
@@ -2382,12 +2382,12 @@ async function saveProduct(){
   const payload = { cat, emoji, name, description: desc, price, unit, badge, img };
 
   if(editId){
-    const { error } = await supabase.from('products').update(payload).eq('id', editId);
+    const { error } = await sb.from('products').update(payload).eq('id', editId);
     if(error){ showToast('Erro ao atualizar produto.','error'); console.error(error); return; }
     const p = products.find(x=>x.id===editId);
     if(p) Object.assign(p, {...payload, desc});
   } else {
-    const { data, error } = await supabase.from('products').insert(payload).select().single();
+    const { data, error } = await sb.from('products').insert(payload).select().single();
     if(error){ showToast('Erro ao adicionar produto.','error'); console.error(error); return; }
     products.push({...data, desc: data.description});
   }
@@ -2415,7 +2415,7 @@ function closeDeleteModal(){
 }
 async function confirmDelete(){
   if(pendingDeleteId===null) return;
-  const { error } = await supabase.from('products').delete().eq('id', pendingDeleteId);
+  const { error } = await sb.from('products').delete().eq('id', pendingDeleteId);
   if(error){ showToast('Erro ao excluir produto.','error'); console.error(error); return; }
   products=products.filter(p=>p.id!==pendingDeleteId);
   if(cart[pendingDeleteId]) delete cart[pendingDeleteId];
