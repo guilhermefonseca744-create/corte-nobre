@@ -3,7 +3,86 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Corte Nobre — Casa de Carnes</title>
+<title>Corte Nobre — Casa de Carnes em Sete Lagoas, MG</title>
+
+<!-- SEO básico -->
+<meta name="description" content="Casa de carnes premium em Sete Lagoas, MG. Cortes nobres selecionados como picanha, filé mignon, costela e muito mais. Entrega rápida e pedido direto pelo WhatsApp."/>
+<meta name="keywords" content="açougue Sete Lagoas, casa de carnes Sete Lagoas, picanha Sete Lagoas, cortes nobres MG, carne premium, churrasco, filé mignon, costela, Corte Nobre"/>
+<meta name="robots" content="index, follow"/>
+<meta name="author" content="Corte Nobre — Casa de Carnes"/>
+<meta name="theme-color" content="#080808"/>
+<link rel="canonical" href="https://corte-nobre-wine.vercel.app/"/>
+
+<!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://corte-nobre-wine.vercel.app/"/>
+<meta property="og:site_name" content="Corte Nobre — Casa de Carnes"/>
+<meta property="og:title" content="Corte Nobre — Casa de Carnes em Sete Lagoas, MG"/>
+<meta property="og:description" content="Cortes nobres selecionados com precisão e carinho. Picanha, filé mignon, costela e muito mais. Peça pelo WhatsApp e receba em casa!"/>
+<meta property="og:locale" content="pt_BR"/>
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Corte Nobre — Casa de Carnes em Sete Lagoas, MG"/>
+<meta name="twitter:description" content="Cortes nobres selecionados com precisão e carinho. Picanha, filé mignon, costela e muito mais. Peça pelo WhatsApp!"/>
+
+<!-- JSON-LD: LocalBusiness (Google rich results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Butcher",
+  "name": "Corte Nobre — Casa de Carnes",
+  "description": "Casa de carnes premium em Sete Lagoas, MG. Cortes nobres selecionados como picanha, filé mignon, costela e muito mais.",
+  "url": "https://corte-nobre-wine.vercel.app/",
+  "telephone": "+55-31-97351-4636",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. José Sérvulo Soalheiro, 3962",
+    "addressLocality": "Sete Lagoas",
+    "addressRegion": "MG",
+    "addressCountry": "BR",
+    "addressDetails": "Verde Vale"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "07:00",
+      "closes": "19:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Saturday",
+      "opens": "07:00",
+      "closes": "17:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "07:00",
+      "closes": "12:00"
+    }
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+55-31-97351-4636",
+    "contactType": "customer service",
+    "availableLanguage": "Portuguese",
+    "contactOption": "https://wa.me/5531973514636"
+  },
+  "sameAs": [
+    "https://wa.me/5531973514636"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "127",
+    "bestRating": "5"
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1017,7 +1096,8 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 </header>
 
 <!-- ════════════════════════════════ HERO ══════════════════════════════════ -->
-<section class="hero">
+<main id="main-content">
+<section class="hero" aria-label="Bem-vindo à Corte Nobre">
   <div class="hero-ornament">
     <div class="hero-ornament-line"></div>
     <span>Corte Nobre</span>
@@ -1034,7 +1114,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 </section>
 
 <!-- ═══════════════════════════ COMO FUNCIONA ════════════════════════════ -->
-<section class="how-section">
+<section class="how-section" id="como-pedir" aria-label="Como fazer seu pedido">
   <h2>Como <span>Fazer seu Pedido</span></h2>
   <p class="sub">Simples, rápido e direto no seu WhatsApp</p>
   <div class="how-steps">
@@ -1062,7 +1142,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 </section>
 
 <!-- ═══════════════════════════ ENTREGA ══════════════════════════════════ -->
-<section class="delivery-section">
+<section class="delivery-section" id="cardapio" aria-label="Cardápio e produtos">
   <div class="delivery-section-inner">
     <div class="delivery-free-banner">
       ✅ Taxa de entrega <strong style="margin:0 4px">GRÁTIS</strong> para todos os bairros de Sete Lagoas
@@ -1083,7 +1163,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <div class="products-grid" id="productsGrid"></div>
 
 <!-- ═══════════════════════ HORÁRIO DE FUNCIONAMENTO ════════════════════════ -->
-<section class="hours-section">
+<section class="hours-section" id="horarios" aria-label="Horário de funcionamento">
   <h2>Horário de <span>Funcionamento</span></h2>
   <p class="hours-sub">Venha nos visitar ou faça seu pedido pelo WhatsApp</p>
 
@@ -1508,7 +1588,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <div class="toast" id="toast"></div>
 
 <!-- ══════════════════════════ POR QUE ESCOLHER ══════════════════════════ -->
-<section class="why-section">
+<section class="why-section" id="diferenciais" aria-label="Por que escolher a Corte Nobre">
   <div class="why-head">
     <h2>Por que escolher a <span>Corte Nobre?</span></h2>
     <p>Mais de uma razão para você nunca mais precisar ir a outro lugar para comprar carne.</p>
@@ -1546,7 +1626,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 </section>
 
 <!-- ═══════════════════════════ DEPOIMENTOS ═══════════════════════════════ -->
-<section class="testimonials-wrap">
+<section class="testimonials-wrap" id="avaliacoes" aria-label="Avaliações de clientes">
   <div class="testimonials-head">
     <h2>O que nossos <span>clientes dizem</span></h2>
     <p>Avaliações reais de quem já pediu e aprovou</p>
@@ -1608,9 +1688,11 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 </section>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+</main><!-- /main-content -->
 <footer>
   <div class="footer-logo">Corte Nobre</div>
   <div class="footer-stars">★★★★★</div>
+  <address style="font-style:normal">
   <p>Casa de Carnes — Qualidade garantida em cada corte<br>
      <a href="https://www.google.com/maps/search/?api=1&query=Av.+Jos%C3%A9+S%C3%A9rvulo+Soalheiro+3962+Verde+Vale+Sete+Lagoas+MG"
         target="_blank" rel="noopener" class="footer-link">
@@ -1622,6 +1704,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
      &nbsp;·&nbsp;
      <a href="tel:+5531973514636" class="footer-link">📞 Ligar agora</a>
   </p>
+  </address>
 </footer>
 
 <script>
