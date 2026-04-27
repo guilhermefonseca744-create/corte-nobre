@@ -1604,6 +1604,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
           <option value="churrasco">Para o Churrasco</option>
           <option value="diaadia">Dia a Dia</option>
           <option value="diversos">Diversos</option>
+          <option value="conveniencia">Conveniência</option>
         </select>
       </div>
     </div>
@@ -1957,6 +1958,13 @@ const DEFAULT_PRODUCTS = [
   {id:23,cat:'diversos', emoji:'🦴', name:'Mocotó',                desc:'Gelatinoso e saboroso. Base perfeita para caldos reconfortantes e sopas.',               price:14.90, unit:'kg',  badge:'',        img:''},
   {id:24,cat:'diversos', emoji:'🫀', name:'Fígado Bovino',         desc:'Rico em ferro e nutrientes. Ao molho, acebolado ou com limão — muito nutritivo.',        price:16.90, unit:'kg',  badge:'',        img:''},
   {id:25,cat:'diversos', emoji:'🥓', name:'Bacon em Fatias',       desc:'Defumado artesanalmente. Crocante e irresistível no prato.',                            price:34.90, unit:'kg',  badge:'',        img:''},
+
+  // ── Conveniência ─────────────────────────────────────────────
+  {id:26,cat:'conveniencia', emoji:'🍺', name:'Cerveja Lata 350ml',   desc:'Gelada e refrescante. Combinação perfeita com o churrasco.',                           price:4.90,  unit:'un',  badge:'',        img:''},
+  {id:27,cat:'conveniencia', emoji:'⚡', name:'Energético 473ml',     desc:'Energia extra para a festa durar mais. Disponível em sabores variados.',               price:9.90,  unit:'un',  badge:'',        img:''},
+  {id:28,cat:'conveniencia', emoji:'🥤', name:'Refrigerante 2L',      desc:'Opção para toda a família. Sabores variados para acompanhar seu pedido.',              price:8.90,  unit:'un',  badge:'',        img:''},
+  {id:29,cat:'conveniencia', emoji:'🔥', name:'Carvão 5kg',           desc:'Carvão de qualidade para um churrasco perfeito. Acende rápido e dura bastante.',       price:24.90, unit:'pc',  badge:'',        img:''},
+  {id:30,cat:'conveniencia', emoji:'🍞', name:'Pão de Alho',          desc:'Crocante por fora, macio por dentro. Tempero de alho e manteiga irresistível.',        price:7.90,  unit:'un',  badge:'',        img:''},
 ];
 
 const BAIRROS = [
@@ -2011,10 +2019,11 @@ const BAIRROS = [
 const CATS = [
   {key:'promo',     label:'Promoções',        emoji:'⚡'},
   {key:'todos',     label:'Todos',            emoji:''},
-  {key:'premium',   label:'Cortes Premium',   emoji:'👑'},
-  {key:'churrasco', label:'Para o Churrasco', emoji:'🍖'},
-  {key:'diaadia',   label:'Dia a Dia',        emoji:'🍽️'},
-  {key:'diversos',  label:'Diversos',         emoji:'🛒'},
+  {key:'premium',      label:'Cortes Premium',   emoji:'👑'},
+  {key:'churrasco',   label:'Para o Churrasco', emoji:'🍖'},
+  {key:'diaadia',     label:'Dia a Dia',        emoji:'🍽️'},
+  {key:'diversos',    label:'Diversos',         emoji:'🛒'},
+  {key:'conveniencia',label:'Conveniência',     emoji:'🛍️'},
 ];
 
 // ══════════════════════════════════════════════════════════════════
@@ -2023,7 +2032,7 @@ const CATS = [
 // ── Ícone SVG helper ───────────────────────────────────────────
 function ic(id){return '<svg aria-hidden="true"><use href="#'+id+'"/></svg>';}
 function icW(id){return '<span class="ic">'+ic(id)+'</span>';}
-const CAT_ICONS={promo:'ic-lightning',todos:'ic-grid',premium:'ic-crown',churrasco:'ic-flame',diaadia:'ic-utensils',diversos:'ic-package'};
+const CAT_ICONS={promo:'ic-lightning',todos:'ic-grid',premium:'ic-crown',churrasco:'ic-flame',diaadia:'ic-utensils',diversos:'ic-package',conveniencia:'ic-bag'};
 function catIcon(cat){return icW(CAT_ICONS[cat]||'ic-steak');}
 function thumbIcon(p){const id=CAT_ICONS[p.cat]||'ic-steak';return '<div class="product-thumb-icon">'+ic(id)+'</div>';}
 
@@ -2149,8 +2158,9 @@ const CAT_TITLES = {
   todos:     { h:'Todos os <span>Produtos</span>',           sub:'Nosso catálogo completo' },
   premium:   { h:'Cortes <span>Premium</span>',              sub:'Os melhores cortes da casa' },
   churrasco: { h:'Seleção para o <span>Churrasco</span>',   sub:'Da brasa direto para a sua mesa' },
-  diaadia:   { h:'Cortes do <span>Dia a Dia</span>',        sub:'Praticidade e sabor no cotidiano' },
-  diversos:  { h:'<span>Miúdos</span> e Outros Cortes',     sub:'Mocotó, fígado e muito mais' },
+  diaadia:      { h:'Cortes do <span>Dia a Dia</span>',        sub:'Praticidade e sabor no cotidiano' },
+  diversos:     { h:'<span>Miúdos</span> e Outros Cortes',     sub:'Mocotó, fígado e muito mais' },
+  conveniencia: { h:'Itens de <span>Conveniência</span>',       sub:'Bebidas, carvão e complementos para o seu churrasco' },
 };
 
 function renderCats(){
