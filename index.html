@@ -103,6 +103,30 @@ img{display:block;max-width:100%}
 button{cursor:pointer;font-family:'Raleway',sans-serif}
 input,select,textarea{font-family:'Raleway',sans-serif}
 
+
+/* ═══ SVG ICON SYSTEM ═══════════════════════════════════════════ */
+.ic{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle}
+.modal-icon svg{width:52px;height:52px;color:var(--gold);display:block;margin:0 auto 14px}
+.how-step-icon{display:flex;align-items:center;justify-content:center}
+.how-step-icon svg{width:40px;height:40px;color:var(--gold)}
+.why-icon-wrap svg{width:36px;height:36px;color:var(--gold)}
+.hero-badge .ic svg{width:14px;height:14px;opacity:.85}
+.header-actions .ic svg{width:14px;height:14px}
+.payment-icon .ic svg{width:28px;height:28px;color:var(--gold)}
+.img-upload-icon .ic svg{width:40px;height:40px;color:var(--muted)}
+.drawer-delivery-title .ic svg{width:14px;height:14px;margin-right:4px}
+.delivery-free-banner .ic svg{width:16px;height:16px;color:#1a7a4a;flex-shrink:0}
+.delivery-badge-modal .ic svg{width:14px;height:14px;margin-right:4px}
+.footer-link .ic svg{width:13px;height:13px;margin-right:3px;opacity:.8}
+.clear-cart .ic svg{width:14px;height:14px}
+.admin-tab .ic svg{width:14px;height:14px;margin-right:5px}
+.ci-btn.ci-del .ic svg{width:13px;height:13px}
+.product-change-img .ic svg{width:13px;height:13px;margin-right:3px}
+.admin-card-actions .ic svg{width:13px;height:13px;margin-right:3px}
+.product-thumb-icon{display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:var(--card2)}
+.product-thumb-icon svg{width:52px;height:52px;color:var(--gold);opacity:.3}
+.cat-btn .ic svg{width:14px;height:14px;margin-right:5px}
+
 /* ═══ HEADER ═══════════════════════════════════════════════ */
 header{
   position:sticky;top:0;z-index:100;
@@ -565,7 +589,7 @@ header{
 }
 .modal.wide{max-width:560px}
 @keyframes popIn{from{transform:scale(.84);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-icon{font-size:2.8rem;text-align:center;margin-bottom:14px}
+.modal-icon{display:flex;align-items:center;justify-content:center;margin-bottom:14px}
 .modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);text-align:center;margin-bottom:6px}
 .modal .modal-sub{color:var(--muted);font-size:.82rem;text-align:center;margin-bottom:24px;line-height:1.6}
 .field{margin-bottom:14px}
@@ -607,7 +631,7 @@ header{
 }
 .img-upload-area:hover,.img-upload-area.dragover{border-color:var(--gold);background:rgba(201,168,76,.04)}
 .img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
-.img-upload-icon{font-size:2.5rem;margin-bottom:8px;opacity:.5}
+.img-upload-icon{display:flex;align-items:center;justify-content:center;margin-bottom:8px;opacity:.6}
 .img-upload-text{font-size:.8rem;color:var(--muted);line-height:1.6}
 .img-upload-text span{color:var(--gold);font-weight:600}
 .img-preview{
@@ -781,7 +805,7 @@ header{
   display:flex;align-items:center;justify-content:center;
   margin:0 auto 14px;
 }
-.how-step-icon{font-size:2rem;margin-bottom:12px}
+.how-step-icon{font-size:2rem;margin-bottom:12px;display:flex;align-items:center;justify-content:center}
 .how-step h4{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:6px}
 .how-step p{font-size:.76rem;color:var(--muted);line-height:1.6}
 .how-connector{
@@ -806,7 +830,7 @@ header{
   background:rgba(201,168,76,.08);
   box-shadow:0 0 0 1px var(--gold);
 }
-.payment-icon{font-size:1.6rem}
+.payment-icon{display:flex;align-items:center;justify-content:center;font-size:1.6rem}
 .payment-label{font-size:.82rem;font-weight:700;color:var(--white)}
 .payment-desc{font-size:.65rem;color:var(--muted)}
 
@@ -902,7 +926,7 @@ header{
   box-shadow:0 14px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.1);
 }
 .why-card:hover::after{width:80%}
-.why-icon-wrap{
+.why-icon-wrap{display:flex;align-items:center;justify-content:center;
   width:72px;height:72px;border-radius:50%;margin:0 auto 20px;
   background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.06));
   border:1.5px solid rgba(201,168,76,.25);
@@ -1075,6 +1099,108 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<defs>
+<symbol id="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+</symbol>
+<symbol id="ic-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+</symbol>
+<symbol id="ic-knife" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14.5 4 20 9.5 9 20.5 3.5 15 14.5 4z"/><path d="M3.5 20.5 8 16"/>
+</symbol>
+<symbol id="ic-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+</symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.19h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+</symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+</symbol>
+<symbol id="ic-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+</symbol>
+<symbol id="ic-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="3"/>
+  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+</symbol>
+<symbol id="ic-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/>
+  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+</symbol>
+<symbol id="ic-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+  <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+</symbol>
+<symbol id="ic-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+  <circle cx="12" cy="13" r="4"/>
+</symbol>
+<symbol id="ic-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+</symbol>
+<symbol id="ic-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+  <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+</symbol>
+<symbol id="ic-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+</symbol>
+<symbol id="ic-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+  <polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>
+</symbol>
+<symbol id="ic-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+  <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+</symbol>
+<symbol id="ic-crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 4l4 10h12l4-10-5 4-5-8-5 8-5-4z"/><line x1="4" y1="20" x2="20" y2="20"/>
+</symbol>
+<symbol id="ic-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/>
+</symbol>
+<symbol id="ic-utensils" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><line x1="7" y1="2" x2="7" y2="22"/>
+  <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>
+</symbol>
+<symbol id="ic-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+  <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+</symbol>
+<symbol id="ic-lightning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+</symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="20 6 9 17 4 12"/>
+</symbol>
+<symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+</symbol>
+<symbol id="ic-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+</symbol>
+<symbol id="ic-steak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 3C7 3 3 6.6 3 11c0 2.8 1.5 5.3 4 6.9V20a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-2.1c2.5-1.6 4-4.1 4-6.9C21 6.6 17 3 12 3z"/>
+  <path d="M9.5 10.5c.5-1 1.5-1.5 2.5-1.5s2 .5 2.5 1.5"/>
+</symbol>
+<symbol id="ic-pix" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 3L3.5 8.5v7L12 21l8.5-5.5v-7L12 3z"/><path d="M3.5 8.5L12 14l8.5-5.5M12 14v7"/>
+</symbol>
+<symbol id="ic-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="6" width="20" height="12" rx="2"/>
+  <circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>
+</symbol>
+<symbol id="ic-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+  <line x1="5" y1="15" x2="9" y2="15"/>
+</symbol>
+</defs>
+</svg>
 
 <!-- ════════════════════════════════ HEADER ════════════════════════════════ -->
 <header>
@@ -1087,9 +1213,9 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
     <div class="stars-label">5 estrelas</div>
   </div>
   <div class="header-actions">
-    <button class="admin-btn" id="adminBtn" onclick="handleAdminClick()">⚙ Admin</button>
+    <button class="admin-btn" id="adminBtn" onclick="handleAdminClick()"><span class="ic"><svg aria-hidden="true"><use href="#ic-gear"/></svg></span> Admin</button>
     <button class="cart-btn" onclick="openCart()">
-      🛒 Carrinho
+      <span class="ic"><svg aria-hidden="true"><use href="#ic-bag"/></svg></span> Carrinho
       <div class="cart-count" id="cartCount">0</div>
     </button>
   </div>
@@ -1106,10 +1232,10 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
   <h1>Carnes Selecionadas<br><em>com</em> <strong>Corte de Mestre</strong></h1>
   <p>Peças nobres escolhidas a dedo, cortadas na hora com precisão e carinho. Do campo direto à sua mesa.</p>
   <div class="hero-badges">
-    <div class="hero-badge">🥩 Corte Artesanal</div>
-    <div class="hero-badge">⭐ 5 Estrelas</div>
-    <div class="hero-badge">🚚 Entrega Rápida</div>
-    <div class="hero-badge">📱 Pedido via WhatsApp</div>
+    <div class="hero-badge"><span class="ic"><svg aria-hidden="true"><use href="#ic-knife"/></svg></span> Corte Artesanal</div>
+    <div class="hero-badge">★ 5 Estrelas</div>
+    <div class="hero-badge"><span class="ic"><svg aria-hidden="true"><use href="#ic-truck"/></svg></span> Entrega Rápida</div>
+    <div class="hero-badge"><span class="ic"><svg aria-hidden="true"><use href="#ic-phone"/></svg></span> Pedido via WhatsApp</div>
   </div>
 </section>
 
@@ -1120,21 +1246,21 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
   <div class="how-steps">
     <div class="how-step">
       <div class="how-step-num">1</div>
-      <div class="how-step-icon">🥩</div>
+      <div class="how-step-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-knife"/></svg></span></div>
       <h4>Escolha os Cortes</h4>
       <p>Navegue pelo cardápio, filtre por categoria e adicione as peças que deseja ao carrinho.</p>
     </div>
     <div class="how-connector">›</div>
     <div class="how-step">
       <div class="how-step-num">2</div>
-      <div class="how-step-icon">🛒</div>
+      <div class="how-step-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-bag"/></svg></span></div>
       <h4>Monte seu Carrinho</h4>
       <p>Ajuste as quantidades, revise os itens e o valor total antes de finalizar.</p>
     </div>
     <div class="how-connector">›</div>
     <div class="how-step">
       <div class="how-step-num">3</div>
-      <div class="how-step-icon">📱</div>
+      <div class="how-step-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-phone"/></svg></span></div>
       <h4>Receba em Casa</h4>
       <p>Preencha seu endereço e envie o pedido pelo WhatsApp. Entrega grátis em toda Sete Lagoas!</p>
     </div>
@@ -1145,7 +1271,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <section class="delivery-section" id="cardapio" aria-label="Cardápio e produtos">
   <div class="delivery-section-inner">
     <div class="delivery-free-banner">
-      ✅ Taxa de entrega <strong style="margin:0 4px">GRÁTIS</strong> para todos os bairros de Sete Lagoas
+      <span class="ic"><svg aria-hidden="true"><use href="#ic-check"/></svg></span> Taxa de entrega <strong style="margin:0 4px">GRÁTIS</strong> para todos os bairros de Sete Lagoas
     </div>
   </div>
 </section>
@@ -1198,7 +1324,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <div class="cart-drawer" id="cartDrawer">
   <div class="drawer-head">
     <div>
-      <h3>🛒 Seu Pedido</h3>
+      <h3><span class="ic"><svg aria-hidden="true"><use href="#ic-bag"/></svg></span> Seu Pedido</h3>
       <div class="drawer-head-count" id="drawerCount">0 itens</div>
     </div>
     <button class="close-drawer" onclick="closeCart()">✕</button>
@@ -1211,7 +1337,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
     </div>
 
     <div class="drawer-delivery">
-      <div class="drawer-delivery-title">📍 Dados para Entrega</div>
+      <div class="drawer-delivery-title"><span class="ic"><svg aria-hidden="true"><use href="#ic-pin"/></svg></span> Dados para Entrega</div>
 
       <div class="drawer-field">
         <label>Seu nome <span class="req">*</span></label>
@@ -1247,7 +1373,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
     </div>
 
     <div class="drawer-foot-actions">
-      <button class="clear-cart" onclick="clearCart()" title="Limpar carrinho">🗑</button>
+      <button class="clear-cart" onclick="clearCart()" title="Limpar carrinho"><span class="ic"><svg aria-hidden="true"><use href="#ic-trash"/></svg></span></button>
       <button class="wa-btn" id="waBtn" onclick="finalizarPedido()" disabled>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Finalizar Pedido
@@ -1259,7 +1385,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <!-- ═══════════════════════════ ORDER MODAL ════════════════════════════════ -->
 <div class="modal-bg" id="orderModal">
   <div class="modal wide">
-    <div class="modal-icon">📲</div>
+    <div class="modal-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-send"/></svg></span></div>
     <h3>Finalizar Pedido</h3>
     <p class="modal-sub">Preencha seus dados para enviarmos o pedido via WhatsApp.</p>
 
@@ -1281,7 +1407,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
     <div class="checkout-section-title">Endereço de Entrega</div>
 
     <div class="delivery-badge-modal">
-      🚚 Entrega <strong>GRÁTIS</strong> em toda Sete Lagoas — MG
+      <span class="ic"><svg aria-hidden="true"><use href="#ic-truck"/></svg></span> Entrega <strong>GRÁTIS</strong> em toda Sete Lagoas — MG
     </div>
 
     <div class="field">
@@ -1320,7 +1446,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <label class="payment-opt">
         <input type="radio" name="payment" value="PIX"/>
         <div class="payment-card">
-          <span class="payment-icon">📲</span>
+          <span class="payment-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-pix"/></svg></span></span>
           <span class="payment-label">PIX</span>
           <span class="payment-desc">Aprovação na hora</span>
         </div>
@@ -1328,7 +1454,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <label class="payment-opt">
         <input type="radio" name="payment" value="Dinheiro"/>
         <div class="payment-card">
-          <span class="payment-icon">💵</span>
+          <span class="payment-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-cash"/></svg></span></span>
           <span class="payment-label">Dinheiro</span>
           <span class="payment-desc">Pague na entrega</span>
         </div>
@@ -1336,7 +1462,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <label class="payment-opt">
         <input type="radio" name="payment" value="Cartão de Débito"/>
         <div class="payment-card">
-          <span class="payment-icon">💳</span>
+          <span class="payment-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-card"/></svg></span></span>
           <span class="payment-label">Débito</span>
           <span class="payment-desc">Maquininha na entrega</span>
         </div>
@@ -1344,7 +1470,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <label class="payment-opt">
         <input type="radio" name="payment" value="Cartão de Crédito"/>
         <div class="payment-card">
-          <span class="payment-icon">💳</span>
+          <span class="payment-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-card"/></svg></span></span>
           <span class="payment-label">Crédito</span>
           <span class="payment-desc">Maquininha na entrega</span>
         </div>
@@ -1367,7 +1493,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeOrderModal()">Cancelar</button>
-      <button class="btn-confirm" onclick="sendOrder()">Enviar pelo WhatsApp 🚀</button>
+      <button class="btn-confirm" onclick="sendOrder()">Enviar pelo WhatsApp</button>
     </div>
   </div>
 </div>
@@ -1375,7 +1501,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <!-- ═══════════════════════════ PRODUCT MODAL (add/edit) ═══════════════════ -->
 <div class="modal-bg" id="productModal">
   <div class="modal wide">
-    <div class="modal-icon" id="pmIcon">🥩</div>
+    <div class="modal-icon" id="pmIcon"><span class="ic"><svg aria-hidden="true"><use href="#ic-steak"/></svg></span></div>
     <h3 id="pmTitle">Novo Produto</h3>
     <p class="modal-sub" id="pmSub">Preencha os dados do novo corte</p>
 
@@ -1387,10 +1513,10 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <div class="field">
         <label>Categoria</label>
         <select id="pmCat">
-          <option value="premium">👑 Cortes Premium</option>
-          <option value="churrasco">🍖 Para o Churrasco</option>
-          <option value="diaadia">🍽️ Dia a Dia</option>
-          <option value="diversos">🛒 Diversos</option>
+          <option value="premium">Cortes Premium</option>
+          <option value="churrasco">Para o Churrasco</option>
+          <option value="diaadia">Dia a Dia</option>
+          <option value="diversos">Diversos</option>
         </select>
       </div>
     </div>
@@ -1432,7 +1558,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <label>Imagem do produto</label>
       <div class="img-upload-area" id="pmUploadArea">
         <input type="file" id="pmFile" accept="image/*" onchange="handleFileUpload(event)"/>
-        <div class="img-upload-icon">📷</div>
+        <div class="img-upload-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-camera"/></svg></span></div>
         <div class="img-upload-text">
           <span>Clique ou arraste</span> uma imagem aqui<br>
           <small>JPG, PNG, WEBP — máx. 5MB</small>
@@ -1456,7 +1582,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <!-- ═══════════════════════════ IMAGE MODAL (quick change) ════════════════ -->
 <div class="modal-bg" id="imgModal">
   <div class="modal">
-    <div class="modal-icon">🖼</div>
+    <div class="modal-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-image"/></svg></span></div>
     <h3 id="imgModalTitle">Alterar Imagem</h3>
     <p class="modal-sub">Faça upload ou informe a URL de uma nova imagem para este produto.</p>
 
@@ -1464,7 +1590,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <label>Upload de imagem</label>
       <div class="img-upload-area" id="imgUploadArea">
         <input type="file" id="imgFile" accept="image/*" onchange="handleImgFileUpload(event)"/>
-        <div class="img-upload-icon">📷</div>
+        <div class="img-upload-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-camera"/></svg></span></div>
         <div class="img-upload-text">
           <span>Clique ou arraste</span> uma imagem aqui<br>
           <small>JPG, PNG, WEBP — máx. 5MB</small>
@@ -1492,7 +1618,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <!-- ═══════════════════════════ DELETE CONFIRM ════════════════════════════ -->
 <div class="modal-bg" id="deleteModal">
   <div class="modal">
-    <div class="modal-icon">⚠️</div>
+    <div class="modal-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-warning"/></svg></span></div>
     <h3>Excluir Produto?</h3>
     <p class="modal-sub" id="deleteModalMsg">Esta ação não pode ser desfeita.</p>
     <div class="modal-actions">
@@ -1505,7 +1631,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <!-- ═══════════════════════════ LOGIN MODAL ═══════════════════════════════ -->
 <div class="modal-bg" id="loginModal">
   <div class="modal">
-    <div class="modal-icon">🔐</div>
+    <div class="modal-icon"><span class="ic"><svg aria-hidden="true"><use href="#ic-lock"/></svg></span></div>
     <h3>Acesso Administrativo</h3>
     <p class="modal-sub">Entre com suas credenciais para acessar o painel de gerenciamento.</p>
     <div class="login-error" id="loginError">Usuário ou senha incorretos.</div>
@@ -1520,7 +1646,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeLoginModal()">Cancelar</button>
-      <button class="btn-confirm" onclick="doLogin()">🔓 Entrar</button>
+      <button class="btn-confirm" onclick="doLogin()">Entrar</button>
     </div>
   </div>
 </div>
@@ -1529,7 +1655,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 <div class="admin-panel" id="adminPanel">
   <div class="admin-header">
     <div>
-      <h2>⚙ Painel Administrativo</h2>
+      <h2><span class="ic"><svg aria-hidden="true"><use href="#ic-gear"/></svg></span> Painel Administrativo</h2>
     </div>
     <div class="admin-header-right">
       <button class="btn-add-product" id="btnAddProduct" onclick="openProductModal()">+ Adicionar Produto</button>
@@ -1539,8 +1665,8 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
   </div>
   <div class="admin-body">
     <div class="admin-tabs">
-      <button class="admin-tab active" onclick="switchTab('products',this)">📦 Produtos</button>
-      <button class="admin-tab" onclick="switchTab('settings',this)">⚙ Configurações</button>
+      <button class="admin-tab active" onclick="switchTab('products',this)"><span class="ic"><svg aria-hidden="true"><use href="#ic-package"/></svg></span> Produtos</button>
+      <button class="admin-tab" onclick="switchTab('settings',this)"><span class="ic"><svg aria-hidden="true"><use href="#ic-gear"/></svg></span> Configurações</button>
     </div>
 
     <!-- tab produtos -->
@@ -1554,7 +1680,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       <div class="settings-card">
         <h4>Conta Admin</h4>
         <p>As credenciais são gerenciadas diretamente no painel do Supabase em <strong>Authentication → Users</strong>.</p>
-        <button class="btn-save-settings" onclick="doLogout()" style="background:linear-gradient(135deg,#c0392b,#e74c3c);margin-bottom:0">🚪 Encerrar Sessão</button>
+        <button class="btn-save-settings" onclick="doLogout()" style="background:linear-gradient(135deg,#c0392b,#e74c3c);margin-bottom:0"><span class="ic"><svg aria-hidden="true"><use href="#ic-logout"/></svg></span> Encerrar Sessão</button>
 
         <hr class="settings-divider"/>
         <h4>Número do WhatsApp da Loja</h4>
@@ -1563,7 +1689,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
           <label>Número (ex: 5511999999999)</label>
           <input type="tel" id="storePhone" placeholder="5511999999999" maxlength="20"/>
         </div>
-        <button class="btn-save-settings" onclick="saveStorePhone()">💾 Salvar Número</button>
+        <button class="btn-save-settings" onclick="saveStorePhone()"><span class="ic"><svg aria-hidden="true"><use href="#ic-save"/></svg></span> Salvar Número</button>
 
         <hr class="settings-divider"/>
         <h4>Sessão</h4>
@@ -1596,28 +1722,28 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
 
   <div class="why-features">
     <div class="why-card">
-      <div class="why-icon-wrap">🥩</div>
+      <div class="why-icon-wrap"><span class="ic"><svg aria-hidden="true"><use href="#ic-steak"/></svg></span></div>
       <h3>Carnes Selecionadas</h3>
       <p>Trabalhamos apenas com fornecedores certificados e animais de alto padrão. Cada peça é inspecionada com cuidado antes de chegar à sua mesa — frescor e qualidade garantidos.</p>
       <span class="why-card-tag">Qualidade Premium</span>
     </div>
 
     <div class="why-card">
-      <div class="why-icon-wrap">🔪</div>
+      <div class="why-icon-wrap"><span class="ic"><svg aria-hidden="true"><use href="#ic-knife"/></svg></span></div>
       <h3>Cortes Personalizados</h3>
       <p>Nosso açougueiro corta do jeito que você preferir — bifes, cubos, moído, tiras ou peça inteira. Basta pedir! Atendemos com atenção e cuidado cada detalhe do seu pedido.</p>
       <span class="why-card-tag">Do seu jeito</span>
     </div>
 
     <div class="why-card">
-      <div class="why-icon-wrap">🚚</div>
+      <div class="why-icon-wrap"><span class="ic"><svg aria-hidden="true"><use href="#ic-truck"/></svg></span></div>
       <h3>Entrega Rápida na Região</h3>
       <p>Entregamos em toda Sete Lagoas com agilidade e cuidado, sem custo extra. Frete <strong style="color:var(--gold)">100% grátis</strong> para todos os bairros — do Centro ao Verde Vale.</p>
       <span class="why-card-tag">Frete Grátis</span>
     </div>
 
     <div class="why-card">
-      <div class="why-icon-wrap">📱</div>
+      <div class="why-icon-wrap"><span class="ic"><svg aria-hidden="true"><use href="#ic-phone"/></svg></span></div>
       <h3>Pedido pelo WhatsApp</h3>
       <p>Sem app, sem cadastro, sem complicação. Monte seu carrinho aqui, clique em enviar e receba a confirmação direto no WhatsApp em segundos. Simples assim.</p>
       <span class="why-card-tag">Super fácil</span>
@@ -1696,13 +1822,13 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
   <p>Casa de Carnes — Qualidade garantida em cada corte<br>
      <a href="https://www.google.com/maps/search/?api=1&query=Av.+Jos%C3%A9+S%C3%A9rvulo+Soalheiro+3962+Verde+Vale+Sete+Lagoas+MG"
         target="_blank" rel="noopener" class="footer-link">
-       📍 Av. José Sérvulo Soalheiro, 3962 — Verde Vale, Sete Lagoas — MG
+       <span class="ic"><svg aria-hidden="true"><use href="#ic-pin"/></svg></span> Av. José Sérvulo Soalheiro, 3962 — Verde Vale, Sete Lagoas — MG
      </a><br>
      <a href="https://wa.me/5531973514636" target="_blank" rel="noopener" class="footer-link footer-link-wa">
-       💬 (31) 97351-4636 — Chamar no WhatsApp
+       <span class="ic"><svg aria-hidden="true"><use href="#ic-chat"/></svg></span> (31) 97351-4636 — Chamar no WhatsApp
      </a>
      &nbsp;·&nbsp;
-     <a href="tel:+5531973514636" class="footer-link">📞 Ligar agora</a>
+     <a href="tel:+5531973514636" class="footer-link"><span class="ic"><svg aria-hidden="true"><use href="#ic-phone"/></svg></span> Ligar agora</a>
   </p>
   </address>
 </footer>
@@ -1807,6 +1933,13 @@ const CATS = [
 // ══════════════════════════════════════════════════════════════════
 //  SUPABASE — cliente + auth reativa
 // ══════════════════════════════════════════════════════════════════
+// ── Ícone SVG helper ───────────────────────────────────────────
+function ic(id){return '<svg aria-hidden="true"><use href="#'+id+'"/></svg>';}
+function icW(id){return '<span class="ic">'+ic(id)+'</span>';}
+const CAT_ICONS={promo:'ic-lightning',todos:'ic-grid',premium:'ic-crown',churrasco:'ic-flame',diaadia:'ic-utensils',diversos:'ic-package'};
+function catIcon(cat){return icW(CAT_ICONS[cat]||'ic-steak');}
+function thumbIcon(p){const id=CAT_ICONS[p.cat]||'ic-steak';return '<div class="product-thumb-icon">'+ic(id)+'</div>';}
+
 const SUPABASE_URL = 'https://hltwqpdmzefnlcpewhal.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhsdHdxcGRtemVmbmxjcGV3aGFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMTMzMjcsImV4cCI6MjA5MTY4OTMyN30.zD1DE_SeYLcbIUAFJfDLA6BoFDMV_p-TSzgYOhNxDrk';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -1847,7 +1980,7 @@ async function doLogin(){
   }
   closeLoginModal();
   openAdmin();
-  showToast('Bem-vindo ao painel admin! 👋','success');
+  showToast('Bem-vindo ao painel admin!','success');
 }
 
 async function doLogout(){
@@ -1938,7 +2071,7 @@ function renderCats(){
   wrap.innerHTML = CATS.map(c=>`
     <button class="cat-btn${currentCat===c.key?' active':''}"
       onclick="filterCat('${c.key}')">
-      ${c.emoji?c.emoji+' ':''}${c.label}
+      ${catIcon(c.key)}${c.label}
     </button>
   `).join('');
 
@@ -1954,9 +2087,9 @@ function renderCats(){
 function thumbHtml(p, size='full'){
   if(p.img){
     return `<img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-            <div class="product-thumb-emoji" style="display:none">${p.emoji||'🥩'}</div>`;
+            ${thumbIcon(p)}`;
   }
-  return `<div class="product-thumb-emoji">${p.emoji||'🥩'}</div>`;
+  return thumbIcon(p);
 }
 
 function renderProducts(){
@@ -1967,7 +2100,7 @@ function renderProducts(){
 
   if(!list.length){
     grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted)">
-      <div style="font-size:3rem;margin-bottom:12px;opacity:.3">🔍</div>
+      <div style="opacity:.2;margin-bottom:12px;color:var(--muted);display:flex;justify-content:center"><svg width="52" height="52" aria-hidden="true"><use href="#ic-search"/></svg></div>
       <p>Nenhum produto nesta categoria.</p>
     </div>`;
     return;
@@ -1982,7 +2115,7 @@ function renderProducts(){
         ${p.badge?`<div class="product-badge">${p.badge}</div>`:''}
         ${thumbHtml(p)}
         <div class="product-thumb-overlay"></div>
-        ${isLoggedIn()?`<button class="product-change-img" onclick="openImgModal(${p.id})" title="Alterar imagem">📷 Alterar foto</button>`:''}
+        ${isLoggedIn()?`<button class="product-change-img" onclick="openImgModal(${p.id})" title="Alterar imagem"><span class="ic"><svg aria-hidden="true"><use href="#ic-camera"/></svg></span> Alterar foto</button>`:''}
       </div>
       <div class="product-body">
         <div class="product-name">${p.name}</div>
@@ -2028,7 +2161,7 @@ function addToCart(id){
   cart[id] = (cart[id]||0)+1;
   refreshProductControls(id);
   updateCartUI();
-  showToast('Adicionado ao carrinho! 🥩','success');
+  showToast('Adicionado ao carrinho!','success');
 }
 
 function changeQty(id, delta){
@@ -2133,11 +2266,11 @@ function finalizarPedido(){
   }
 
   if(!entries.length)
-    return showToast('Adicione itens ao carrinho primeiro! 🛒','error');
-  if(!name)   return invalid('dName',   'Informe seu nome! 👤');
-  if(!street) return invalid('dStreet', 'Informe a rua/avenida! 🏠');
-  if(!number) return invalid('dNumber', 'Informe o número! 🔢');
-  if(!neighborhood) return invalid('dNeighborhood','Informe o bairro! 📍');
+    return showToast('Adicione itens ao carrinho primeiro!','error');
+  if(!name)   return invalid('dName',   'Informe seu nome!');
+  if(!street) return invalid('dStreet', 'Informe a rua/avenida!');
+  if(!number) return invalid('dNumber', 'Informe o número!');
+  if(!neighborhood) return invalid('dNeighborhood','Informe o bairro!');
 
   // monta endereço completo
   let addressLine = `${street}, ${number} — ${neighborhood}`;
@@ -2163,7 +2296,7 @@ function finalizarPedido(){
     `Endereço: ${addressLine}`;
 
   window.open(`https://wa.me/${loadStorePhone()}?text=${encodeURIComponent(msg)}`,'_blank');
-  showToast('Abrindo WhatsApp... 🚀','success');
+  showToast('Abrindo WhatsApp...','success');
 }
 
 function renderCartList(entries){
@@ -2171,7 +2304,7 @@ function renderCartList(entries){
   if(!entries.length){
     container.innerHTML=`
       <div class="cart-empty-state">
-        <div class="icon">🥩</div>
+        <div class="icon" style="opacity:.25;color:var(--gold);display:flex;align-items:center;justify-content:center"><svg width="52" height="52" aria-hidden="true"><use href="#ic-steak"/></svg></div>
         <p>Seu carrinho está vazio.<br>Adicione cortes ao pedido!</p>
       </div>`;
     return;
@@ -2182,7 +2315,7 @@ function renderCartList(entries){
     const sub=(p.price*qty).toFixed(2).replace('.',',');
     const thumb = p.img
       ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">`
-      : p.emoji||'🥩';
+      : thumbIcon(p);
     return `
       <div class="cart-item">
         <div class="ci-thumb">${thumb}</div>
@@ -2193,7 +2326,7 @@ function renderCartList(entries){
         <div class="ci-right">
           <div class="ci-price">R$ ${sub}</div>
           <div class="ci-controls">
-            <button class="ci-btn ci-del" onclick="removeItem(${id})" title="Remover">🗑</button>
+            <button class="ci-btn ci-del" onclick="removeItem(${id})" title="Remover"><span class="ic"><svg aria-hidden="true"><use href="#ic-trash"/></svg></span></button>
             <button class="ci-btn" onclick="changeQty(${id},-1)">−</button>
             <span class="ci-qty">${qty}</span>
             <button class="ci-btn" onclick="changeQty(${id},1)">+</button>
@@ -2278,7 +2411,7 @@ function sendOrder(){
     if(!p) return;
     const sub=p.price*qty;
     total+=sub;
-    msg+=`${p.emoji||'▸'} *${p.name}*\n`;
+    msg+=`${'▸'} *${p.name}*\n`;
     msg+=`   ${qty} ${p.unit} × R$ ${p.price.toFixed(2).replace('.',',')} = *R$ ${sub.toFixed(2).replace('.',',')}*\n\n`;
   });
 
@@ -2292,7 +2425,7 @@ function sendOrder(){
   window.open(`https://wa.me/${loadStorePhone()}?text=${encodeURIComponent(msg)}`,'_blank');
   closeOrderModal();
   closeCart();
-  showToast('Abrindo WhatsApp... 🚀','success');
+  showToast('Abrindo WhatsApp...','success');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -2381,7 +2514,7 @@ function openProductModal(editId=null){
     if(!p) return;
     document.getElementById('pmTitle').textContent='Editar Produto';
     document.getElementById('pmSub').textContent='Altere as informações do corte';
-    document.getElementById('pmIcon').textContent='✏️';
+    document.getElementById('pmIcon').innerHTML='<span class="ic"><svg aria-hidden="true"><use href="#ic-pencil"/></svg></span>';
     document.getElementById('pmEditId').value=editId;
     document.getElementById('pmName').value=p.name;
     document.getElementById('pmCat').value=p.cat;
@@ -2394,7 +2527,7 @@ function openProductModal(editId=null){
   } else {
     document.getElementById('pmTitle').textContent='Novo Produto';
     document.getElementById('pmSub').textContent='Preencha os dados do novo corte';
-    document.getElementById('pmIcon').textContent='🥩';
+    document.getElementById('pmIcon').innerHTML='<span class="ic"><svg aria-hidden="true"><use href="#ic-steak"/></svg></span>';
     document.getElementById('pmEditId').value='';
     document.getElementById('pmName').value='';
     document.getElementById('pmCat').value='bovino';
@@ -2532,7 +2665,7 @@ function renderAdminGrid(){
   document.getElementById('adminTitle').textContent=`${products.length} produto${products.length!==1?'s':''}`;
   if(!products.length){
     grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted)">
-      <div style="font-size:3rem;opacity:.3;margin-bottom:12px">📦</div>
+      <div style="opacity:.2;margin-bottom:12px;color:var(--muted);display:flex;justify-content:center"><svg width="52" height="52" aria-hidden="true"><use href="#ic-package"/></svg></div>
       <p>Nenhum produto cadastrado.</p>
     </div>`;
     return;
@@ -2540,18 +2673,18 @@ function renderAdminGrid(){
   grid.innerHTML=products.map(p=>{
     const thumb = p.img
       ? `<img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">`
-      : p.emoji||'🥩';
+      : thumbIcon(p);
     return `
     <div class="admin-card">
       <div class="admin-card-thumb">${thumb}</div>
       <div class="admin-card-body">
-        <div class="admin-card-cat">${CATS.find(c=>c.key===p.cat)?.emoji||''} ${CATS.find(c=>c.key===p.cat)?.label||p.cat}</div>
+        <div class="admin-card-cat">${CATS.find(c=>c.key===p.cat)?.label||p.cat}</div>
         <div class="admin-card-name">${p.name}</div>
         <div class="admin-card-price">R$ ${p.price.toFixed(2).replace('.',',')} / ${p.unit}</div>
         <div class="admin-card-actions">
-          <button class="btn-edit" onclick="openProductModal(${p.id})">✏️ Editar</button>
-          <button class="btn-img" onclick="openImgModal(${p.id})" title="Alterar imagem">📷</button>
-          <button class="btn-del" onclick="openDeleteModal(${p.id})" title="Excluir">🗑</button>
+          <button class="btn-edit" onclick="openProductModal(${p.id})"><span class="ic"><svg aria-hidden="true"><use href="#ic-pencil"/></svg></span> Editar</button>
+          <button class="btn-img" onclick="openImgModal(${p.id})" title="Alterar imagem"><span class="ic"><svg aria-hidden="true"><use href="#ic-camera"/></svg></span></button>
+          <button class="btn-del" onclick="openDeleteModal(${p.id})" title="Excluir"><span class="ic"><svg aria-hidden="true"><use href="#ic-trash"/></svg></span></button>
         </div>
       </div>
     </div>`;
