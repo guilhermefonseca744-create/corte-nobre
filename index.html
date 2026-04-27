@@ -1426,7 +1426,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
           <div class="dpay-card">
             <span class="ic"><svg aria-hidden="true"><use href="#ic-pix"/></svg></span>
             <span class="dpay-label">PIX</span>
-            <span class="dpay-desc">Desconto 5%</span>
+            <span class="dpay-desc">Chave PIX</span>
           </div>
         </label>
         <label class="dpay-opt">
@@ -2400,14 +2400,6 @@ function finalizarPedido(){
 
   const totalFmt = `R$ ${total.toFixed(2).replace('.',',')}`;
 
-  // desconto PIX 5%
-  let descontoLine = '';
-  if(payment === 'PIX'){
-    const desc = total * 0.05;
-    const totalDesc = total - desc;
-    descontoLine = `Desconto PIX (5%): -R$ ${desc.toFixed(2).replace('.',',')}\nTotal c/ desconto: R$ ${totalDesc.toFixed(2).replace('.',',')}\n`;
-  }
-
   // monta localização
   let localLine = '';
   if(deliveryMode === 'entrega'){
@@ -2428,7 +2420,6 @@ function finalizarPedido(){
     `Olá, Corte Nobre! Gostaria de fazer um ${modalidade}:\n\n` +
     `${linhas}\n` +
     `Total: ${totalFmt}\n` +
-    `${descontoLine}` +
     `Nome: ${name}\n` +
     `${localLine}\n` +
     `Pagamento: ${payment}\n` +
