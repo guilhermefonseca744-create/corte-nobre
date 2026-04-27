@@ -2042,6 +2042,7 @@ function saveStorePhone(){
 async function fetchProducts(){
   const { data, error } = await sb.from('products').select('*').order('id');
   if(error){ console.error('fetchProducts:', error); return DEFAULT_PRODUCTS.map(p=>({...p})); }
+  if(!data || !data.length){ return DEFAULT_PRODUCTS.map(p=>({...p})); }
   return data.map(p=>({...p, desc: p.description}));
 }
 
