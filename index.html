@@ -979,51 +979,6 @@ header{
   background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);
 }
 
-/* ═══ DEPOIMENTOS ═══════════════════════════════════════════ */
-.testimonials-wrap{
-  border-top:1px solid var(--border);
-  padding:64px 24px 72px;
-  background:linear-gradient(180deg,var(--dark) 0%,var(--black) 100%);
-}
-.testimonials-head{text-align:center;margin-bottom:44px}
-.testimonials-head h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:6px}
-.testimonials-head h2 span{color:var(--gold)}
-.testimonials-head p{color:var(--muted);font-size:.82rem}
-
-.testimonials-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:18px;max-width:1100px;margin:0 auto;
-}
-.tcard{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
-  padding:26px;display:flex;flex-direction:column;gap:14px;
-  transition:border-color .25s,transform .28s cubic-bezier(.34,1.45,.64,1);
-  position:relative;
-}
-.tcard:hover{border-color:rgba(201,168,76,.35);transform:translateY(-4px)}
-.tcard-quote{
-  font-size:3rem;line-height:.8;color:var(--gold);opacity:.25;
-  font-family:'Playfair Display',serif;font-weight:900;
-  position:absolute;top:16px;right:20px;
-  user-select:none;pointer-events:none;
-}
-.tcard-stars{display:flex;gap:3px}
-.tcard-stars span{color:var(--gold);font-size:.9rem;filter:drop-shadow(0 0 4px rgba(201,168,76,.5))}
-.tcard-text{
-  font-size:.85rem;color:#c8b99a;line-height:1.75;
-  font-style:italic;flex:1;
-}
-.tcard-author{display:flex;align-items:center;gap:11px;margin-top:4px}
-.tcard-avatar{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:.95rem;font-weight:700;color:var(--black);
-}
-.tcard-info{display:flex;flex-direction:column;gap:2px}
-.tcard-name{font-size:.82rem;font-weight:700;color:var(--white)}
-.tcard-loc{font-size:.7rem;color:var(--muted);letter-spacing:.3px}
-
 /* ═══ FOOTER ═════════════════════════════════════════════════ */
 footer{text-align:center;padding:50px 24px;border-top:1px solid var(--border)}
 .footer-logo{
@@ -1851,67 +1806,6 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
   </div>
 </section>
 
-<!-- ═══════════════════════════ DEPOIMENTOS ═══════════════════════════════ -->
-<section class="testimonials-wrap" id="avaliacoes" aria-label="Avaliações de clientes">
-  <div class="testimonials-head">
-    <h2>O que nossos <span>clientes dizem</span></h2>
-    <p>Avaliações reais de quem já pediu e aprovou</p>
-  </div>
-
-  <div class="testimonials-grid">
-    <div class="tcard">
-      <span class="tcard-quote">"</span>
-      <div class="tcard-stars">★★★★★</div>
-      <p class="tcard-text">Melhor picanha que já comi em Sete Lagoas! O churrasco da família nunca mais foi o mesmo. Chegou fresquinha e bem embalada.</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar">J</div>
-        <div class="tcard-info">
-          <span class="tcard-name">João Mendes</span>
-          <span class="tcard-loc">Verde Vale</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard">
-      <span class="tcard-quote">"</span>
-      <div class="tcard-stars">★★★★★</div>
-      <p class="tcard-text">Entrega super rápida e a carne chegou fresquinha. Pedi pelo WhatsApp e foi moleza. Recomendo demais para quem mora aqui na região!</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar">A</div>
-        <div class="tcard-info">
-          <span class="tcard-name">Ana Cristina</span>
-          <span class="tcard-loc">Centro</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard">
-      <span class="tcard-quote">"</span>
-      <div class="tcard-stars">★★★★★</div>
-      <p class="tcard-text">Fiz meu pedido pelo site e em menos de 40 minutos já estava em casa. Atendimento nota 10, carne de qualidade e preço justo. Virei cliente fixo!</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar">C</div>
-        <div class="tcard-info">
-          <span class="tcard-name">Carlos Santos</span>
-          <span class="tcard-loc">Boa Vista</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard">
-      <span class="tcard-quote">"</span>
-      <div class="tcard-stars">★★★★★</div>
-      <p class="tcard-text">O filé mignon daqui é incrível. Pedi o corte em medalhões e ficou perfeito. Nunca mais vou comprar carne em supermercado. Vale cada centavo!</p>
-      <div class="tcard-author">
-        <div class="tcard-avatar">M</div>
-        <div class="tcard-info">
-          <span class="tcard-name">Maria Lima</span>
-          <span class="tcard-loc">Jardim Europa</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
 </main><!-- /main-content -->
