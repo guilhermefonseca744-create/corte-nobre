@@ -151,6 +151,12 @@ input,select,textarea{font-family:'Raleway',sans-serif}
 .dpay-troco input{width:100%;background:var(--card2);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);padding:8px 12px;font-size:.8rem;font-family:'Raleway',sans-serif;transition:border .2s}
 .dpay-troco input:focus{outline:none;border-color:var(--gold)}
 
+/* ═══ DRAWER OBSERVAÇÕES ══════════════════════════════════════ */
+.drawer-obs{padding:14px 16px 0}
+.drawer-obs textarea{width:100%;background:var(--card2);border:1.5px solid var(--border2);border-radius:8px;color:var(--white);padding:9px 12px;font-size:.8rem;font-family:'Raleway',sans-serif;resize:none;line-height:1.5;transition:border .2s}
+.drawer-obs textarea:focus{outline:none;border-color:var(--gold)}
+.drawer-obs textarea::placeholder{color:var(--muted)}
+
 /* ═══ HEADER ═══════════════════════════════════════════════ */
 header{
   position:sticky;top:0;z-index:100;
@@ -1459,6 +1465,12 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
       </div>
     </div>
 
+    <!-- OBSERVAÇÕES -->
+    <div class="drawer-obs">
+      <div class="drawer-delivery-title"><span class="ic"><svg aria-hidden="true"><use href="#ic-pencil"/></svg></span> Observações</div>
+      <textarea id="dObs" placeholder="Ex: filé bem fino, picanha sem gordura, moído na hora... (opcional)" rows="2"></textarea>
+    </div>
+
     <div class="drawer-foot-actions">
       <button class="clear-cart" onclick="clearCart()" title="Limpar carrinho"><span class="ic"><svg aria-hidden="true"><use href="#ic-trash"/></svg></span></button>
       <button class="wa-btn" id="waBtn" onclick="finalizarPedido()" disabled>
@@ -1913,7 +1925,7 @@ footer p{color:var(--muted);font-size:.78rem;line-height:2}
        <span class="ic"><svg aria-hidden="true"><use href="#ic-pin"/></svg></span> Av. José Sérvulo Soalheiro, 3962 — Verde Vale, Sete Lagoas — MG
      </a><br>
      <a href="https://wa.me/5531999900953" target="_blank" rel="noopener" class="footer-link footer-link-wa">
-       <span class="ic"><svg aria-hidden="true"><use href="#ic-chat"/></svg></span> (31) 97351-4636 — Chamar no WhatsApp
+       <span class="ic"><svg aria-hidden="true"><use href="#ic-chat"/></svg></span> (31) 9 9990-0953 — Chamar no WhatsApp
      </a>
      &nbsp;·&nbsp;
      <a href="tel:+5531999900953" class="footer-link"><span class="ic"><svg aria-hidden="true"><use href="#ic-phone"/></svg></span> Ligar agora</a>
@@ -2377,6 +2389,7 @@ function finalizarPedido(){
   const payRadio = document.querySelector('input[name="dpayment"]:checked');
   const payment  = payRadio ? payRadio.value : '';
   const troco    = document.getElementById('dTroco').value.trim();
+  const obs      = document.getElementById('dObs').value.trim();
 
   // helper: marca campo inválido e devolve false
   function invalid(id, msg){
@@ -2425,6 +2438,10 @@ function finalizarPedido(){
   let trocoLine = '';
   if(payment === 'Dinheiro' && troco) trocoLine = `Troco para: ${troco}\n`;
 
+  // observações
+  let obsLine = '';
+  if(obs) obsLine = `\nObservações: ${obs}`;
+
   const modalidade = deliveryMode === 'entrega' ? 'pedido para *entrega*' : 'pedido para *retirada na loja*';
   const msg =
     `Olá, Corte Nobre! Gostaria de fazer um ${modalidade}:\n\n` +
@@ -2433,7 +2450,8 @@ function finalizarPedido(){
     `Nome: ${name}\n` +
     `${localLine}\n` +
     `Pagamento: ${payment}\n` +
-    `${trocoLine}`;
+    `${trocoLine}` +
+    `${obsLine}`;
 
   window.open(`https://wa.me/${loadStorePhone()}?text=${encodeURIComponent(msg)}`,'_blank');
   showToast('Abrindo WhatsApp...','success');
